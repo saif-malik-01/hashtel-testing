@@ -62,8 +62,8 @@ const Detail = async ({
     redirect(`?variantId=${product.variants?.[0].id}`);
   }
 
-  const description = JSON.parse(product?.description || "").blocks[0]?.data
-    ?.text;
+  const description = product?.description ? JSON.parse(product?.description || "").blocks[0]?.data
+    ?.text : "";
 
   const variant = product?.variants?.find((p) => p.id === variantId);
 

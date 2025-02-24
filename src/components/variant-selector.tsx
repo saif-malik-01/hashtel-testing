@@ -75,27 +75,29 @@ export function VariantSelector({
 
   return (
     <>
-      <fieldset role="radiogroup" data-testid="ColorSelector">
-        <legend className="text-gray-600 font-light">Choose Color:</legend>
-        <div className="mt-4 flex flex-wrap gap-3">
-          {colors.map((color) => {
-            const variantId = getVariantId(color || "");
-            return (
-              <Link
-                scroll={false}
-                href={`/${channel}/products/${product.slug}/?variantId=${variantId}`}
-              >
-                <Button
-                  key={color}
-                  variant={selectedColor === color ? "default" : "outline"}
+      {colors.length > 1 && (
+        <fieldset role="radiogroup" data-testid="ColorSelector">
+          <legend className="text-gray-600 font-light">Choose Color:</legend>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {colors.map((color) => {
+              const variantId = getVariantId(color || "");
+              return (
+                <Link
+                  scroll={false}
+                  href={`/${channel}/products/${product.slug}/?variantId=${variantId}`}
                 >
-                  {color}
-                </Button>
-              </Link>
-            );
-          })}
-        </div>
-      </fieldset>
+                  <Button
+                    key={color}
+                    variant={selectedColor === color ? "default" : "outline"}
+                  >
+                    {color}
+                  </Button>
+                </Link>
+              );
+            })}
+          </div>
+        </fieldset>
+      )}
 
       {!!conditions.length && (
         <fieldset role="radiogroup" data-testid="ColorSelector">

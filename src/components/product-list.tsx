@@ -22,8 +22,8 @@ const ProductList = ({
   return (
     <section className="mt-12">
       <div className="flex items-center justify-between md:px-32 px-6 py-6 md:py-8">
-        <h2 className="md:text-4xl text-2xl font-semibold">{title}</h2>
-        <Link href={`/${channel}/shop`} className="flex items-center text-primary gap-2">
+        <h2 className="md:text-4xl text-xl font-semibold">{title}</h2>
+        <Link href={`/${channel}/shop`} className="flex items-center text-primary gap-2 md:text-md text-sm">
           All Products <ArrowRight size={16} />
         </Link>
       </div>

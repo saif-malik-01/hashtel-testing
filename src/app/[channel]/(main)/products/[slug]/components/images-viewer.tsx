@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import ImageMagnify from "@/components/image-magnify";
 import { VariantDetailsFragment } from "@/gql/graphql";
+import { cn } from "@/lib/utils";
 
 export default function ImagesViewer({
   images = [],
@@ -20,12 +21,15 @@ export default function ImagesViewer({
 
   return (
     <div className="md:w-1/2 flex gap-4 flex-col-reverse md:flex-row">
-      <div className="flex gap-4 justify-start align-center md:flex-col w-[120px] h-[120px]">
+      <div className="flex gap-4 justify-start align-center md:flex-col w-[220px] md:h-[400px] overflow-y-auto overflow-x-hidden">
         {images &&
           images.map((item, idx) => (
             <Image
               key={idx}
-              className="cursor-pointer rounded-sm md:w-[120px] md:h-[120px] md:min-w-[120px] md:min-h-[120px] min-w-[80px] min-h-[80px] w-[80px] h-[80px] object-cover"
+              className={cn(
+                "cursor-pointer rounded-sm md:w-[120px] md:h-[120px] md:min-w-[120px] md:min-h-[120px] min-w-[80px] min-h-[80px] w-[80px] h-[80px] object-cover",
+                index === idx && "border-2 border-primary"
+              )}
               src={item.url}
               width={240}
               height={240}
@@ -39,7 +43,7 @@ export default function ImagesViewer({
           src={images?.[index]?.url}
           width={600}
           height={600}
-          className="md:w-[400px] md:h-[400px] w-[400px] h-[400px] object-contain rounded-lg"
+          className="w-[400px] h-[400px] object-contain rounded-lg"
           alt={images?.[index]?.alt}
         />
         <p className="absolute top-4 left-4 shadow text-sm font-[500] bg-white px-2 py-1 w-fit rounded-sm">

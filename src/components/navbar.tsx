@@ -25,6 +25,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import MobileNav from "./mobile-nav";
 
 export default async function Navbar({ channel }: { channel: string }) {
   const data = await executeGraphQL(ProductCategoryListDocument, {
@@ -39,6 +40,8 @@ export default async function Navbar({ channel }: { channel: string }) {
         <Link href="/">
           <Image src="/hashtel-logo.png" width={50} height={56} alt="logo" />
         </Link>
+
+        <MobileNav LINKS={LINKS} categories={categories} verified={!!me} />
 
         {/* Desktop links */}
         <div className="hidden md:flex flex-1 justify-center items-center">

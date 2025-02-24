@@ -33373,7 +33373,7 @@ export type FilteredProductItemListQueryVariables = Exact<{
 }>;
 
 
-export type FilteredProductItemListQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } | null };
+export type FilteredProductItemListQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } | null };
 
 export type ProductCategoryItemFragment = { __typename?: 'Category', id: string, description?: string | null, slug: string, name: string, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null };
 
@@ -33395,7 +33395,7 @@ export type ProductListByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type ProductListByCategoryQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } }> } | null } }> } | null };
+export type ProductListByCategoryQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } }> } | null } }> } | null };
 
 export type ProductListByCollectionQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -33403,16 +33403,16 @@ export type ProductListByCollectionQueryVariables = Exact<{
 }>;
 
 
-export type ProductListByCollectionQuery = { __typename?: 'Query', collection?: { __typename?: 'Collection', name: string, description?: string | null, products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } }> } | null } | null };
+export type ProductListByCollectionQuery = { __typename?: 'Query', collection?: { __typename?: 'Collection', name: string, description?: string | null, products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } }> } | null } | null };
 
-export type ProductListItemFragment = { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null };
+export type ProductListItemFragment = { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null };
 
 export type ProductListItemBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type ProductListItemBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } | null };
+export type ProductListItemBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, alt: string }> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } | null };
 
 export type RegisterUserMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -33516,11 +33516,15 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   name
   slug
   rating
+  thumbnail(format: WEBP, size: 220) {
+    url
+    alt
+  }
   defaultVariant {
     id
     media {
       id
-      url
+      url(size: 220, format: WEBP)
       alt
     }
     pricing {
@@ -33804,11 +33808,15 @@ export const FilteredProductItemListDocument = new TypedDocumentString(`
   name
   slug
   rating
+  thumbnail(format: WEBP, size: 220) {
+    url
+    alt
+  }
   defaultVariant {
     id
     media {
       id
-      url
+      url(size: 220, format: WEBP)
       alt
     }
     pricing {
@@ -33935,11 +33943,15 @@ export const ProductListByCategoryDocument = new TypedDocumentString(`
   name
   slug
   rating
+  thumbnail(format: WEBP, size: 220) {
+    url
+    alt
+  }
   defaultVariant {
     id
     media {
       id
-      url
+      url(size: 220, format: WEBP)
       alt
     }
     pricing {
@@ -33978,11 +33990,15 @@ export const ProductListByCollectionDocument = new TypedDocumentString(`
   name
   slug
   rating
+  thumbnail(format: WEBP, size: 220) {
+    url
+    alt
+  }
   defaultVariant {
     id
     media {
       id
-      url
+      url(size: 220, format: WEBP)
       alt
     }
     pricing {
@@ -34013,11 +34029,15 @@ export const ProductListItemBySlugDocument = new TypedDocumentString(`
   name
   slug
   rating
+  thumbnail(format: WEBP, size: 220) {
+    url
+    alt
+  }
   defaultVariant {
     id
     media {
       id
-      url
+      url(size: 220, format: WEBP)
       alt
     }
     pricing {

@@ -8,7 +8,7 @@ type BANNER = {
 const Banner = ({ url, type }: BANNER) => {
   return (
     <div
-      className={`relative flex flex-col-reverse md:flex-row items-center justify-center w-screen min-h-[540px]`}
+      className={`relative flex flex-col-reverse md:flex-row items-center justify-center w-screen md:min-h-[540px] min-h-[150px]`}
     >
       {type === "video" ? (
         <video

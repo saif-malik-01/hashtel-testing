@@ -3,13 +3,12 @@ fragment ProductListItem on Product {
   name
   slug
   rating
+  thumbnail(format: WEBP, size: 220) {
+    url
+    alt
+  }
   defaultVariant {
     id
-    media {
-      id
-      url
-      alt
-    }
     pricing {
       price {
         gross {
