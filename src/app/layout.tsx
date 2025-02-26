@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
+import Analytics from "@/components/shared/analytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,8 +21,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleTagManager gtmId="GTM-N43PJ8S6" />
-      <GoogleAnalytics gaId="G-GEWNY1PFXC" />
+      <Analytics/>
       <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
