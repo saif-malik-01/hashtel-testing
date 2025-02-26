@@ -1,4 +1,4 @@
-import { GoogleTagManager } from "@next/third-parties";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 export default function Analytics() {
   if (process.env.NODE_ENV !== "production") return null;
