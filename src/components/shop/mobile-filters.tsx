@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { useState } from "react";
 
 import FilterContent from "./filter-content";
-import { Button } from "../../../../../../components/ui/button";
+import { Button } from "../ui/button";
 import { ProductCategoryItemFragment } from "@/gql/graphql";
 
 export default function MobileFilters({

@@ -1,6 +1,7 @@
+// app/components/Navbar.tsx
 import React from "react";
 import Image from "next/image";
-
+import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,51 +11,65 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
-import CartButton from "./cart-button";
-import SearchBar from "./search-bar";
-import Link from "next/link";
-import { LINKS } from "@/constants/navbar";
-import { executeGraphQL } from "@/lib/graphql";
-import {
-  CurrentUserDocument,
-  ProductCategoryListDocument,
-} from "@/gql/graphql";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import CartButton from "./cart-button";
+import SearchBar from "./search-bar";
 import MobileNav from "./mobile-nav";
+import { LINKS } from "@/constants/navbar";
+import { executeGraphQL } from "@/lib/graphql";
+import {
+  CurrentUserDocument,
+  ProductCategoryListDocument,
+} from "@/gql/graphql";
+import * as Checkout from "@/lib/checkout";
 
 export default async function Navbar({ channel }: { channel: string }) {
   const data = await executeGraphQL(ProductCategoryListDocument, {
     revalidate: 60,
   });
   const { me } = await executeGraphQL(CurrentUserDocument, { withAuth: true });
+  const checkoutId = await Checkout.getIdFromCookies(channel);
+  const checkout = await Checkout.find(checkoutId);
+  const initialCartItems = checkout?.lines.length || 0;
+
   const categories = data.categories?.edges.map((e) => e.node) || [];
 
   return (
     <nav className="bg-white w-full border-b border-gray-100 md:px-32 px-6 py-4">
-      <div className="w-full items-center justify-between flex">
+      <div className="w-full flex items-center justify-between">
         <Link href="/">
-          <Image src="/hashtel-logo.png" width={50} height={56} alt="logo" />
+          <Image
+            src="/hashtel-logo.png"
+            width={50}
+            height={56}
+            alt="Hashtel Logo"
+          />
         </Link>
 
-        <MobileNav LINKS={LINKS} categories={categories} verified={!!me} />
+        <MobileNav
+          channel={channel}
+          LINKS={LINKS}
+          categories={categories}
+          verified={!!me}
+          initialCartItems={initialCartItems}
+        />
 
-        {/* Desktop links */}
         <div className="hidden md:flex flex-1 justify-center items-center">
           <NavigationMenu>
             <NavigationMenuList>
               {LINKS.map((item) =>
                 item.isMenu ? (
-                  <NavigationMenuItem>
+                  <NavigationMenuItem key={item.title}>
                     <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                     <NavigationMenuContent className="flex flex-col gap-2 p-2">
-                      {categories.map((category, subIdx) => (
+                      {categories.map((category) => (
                         <NavigationMenuLink
-                          key={subIdx}
+                          key={category.slug}
                           className={navigationMenuTriggerStyle()}
                           href={`/${channel}/shop/${category.slug}`}
                         >
@@ -64,13 +79,13 @@ export default async function Navbar({ channel }: { channel: string }) {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 ) : (
-                  <NavigationMenuItem>
+                  <NavigationMenuItem key={item.path}>
                     <NavigationMenuLink
                       href={item.path}
                       className={navigationMenuTriggerStyle()}
                     >
                       {item.title}
-                    </NavigationMenuLink>{" "}
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 )
               )}
@@ -78,18 +93,17 @@ export default async function Navbar({ channel }: { channel: string }) {
           </NavigationMenu>
         </div>
 
-        <div className="hidden md:flex justify-self-center items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
           <SearchBar channel={channel} />
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Link href={me ? `/${channel}/account` : `/${channel}/sign-in`}>
                   <Image
                     src="/icons/account.png"
-                    alt="user-accout-icon"
+                    alt="Account"
                     height={20}
                     width={20}
-                    className="hidden md:block"
                   />
                 </Link>
               </TooltipTrigger>
@@ -98,7 +112,7 @@ export default async function Navbar({ channel }: { channel: string }) {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <CartButton channel={channel} />
+          <CartButton channel={channel} initialCartItems={initialCartItems} />
         </div>
       </div>
     </nav>

@@ -1,6 +1,7 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import * as Checkout from "@/lib/checkout";
 import {
   Tooltip,
   TooltipContent,
@@ -8,18 +9,23 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 
-export default async function CartButton({ channel }: { channel: string }) {
-  const checkoutId = await Checkout.getIdFromCookies(channel);
-  const checkout = await Checkout.find(checkoutId);
+interface CartButtonProps {
+  channel: string;
+  initialCartItems: number;
+}
 
+export default function CartButton({
+  channel,
+  initialCartItems,
+}: CartButtonProps) {
   return (
     <span className="flex items-center gap-2">
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger asChild>
             <Link href={`/${channel}/cart`}>
               <Image
-                alt=""
+                alt="Shopping Bag"
                 src="/icons/shopping-bag.png"
                 height={22}
                 width={22}
@@ -32,7 +38,7 @@ export default async function CartButton({ channel }: { channel: string }) {
         </Tooltip>
       </TooltipProvider>
       <p className="text-sm bg-primary h-6 w-6 flex items-center justify-center rounded-full text-white">
-        {checkout?.lines.length || 0}
+        {initialCartItems}
       </p>
     </span>
   );

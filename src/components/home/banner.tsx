@@ -1,20 +1,22 @@
 import Image from "next/image";
 
 type BANNER = {
-  url: string;
+  bannerUrl: string;
+  link: string;
   type: "video" | "image" | string;
 };
 
-const Banner = ({ url, type }: BANNER) => {
+const Banner = ({ link, type, bannerUrl }: BANNER) => {
   return (
-    <div
+    <a
+      href={link}
       className={`relative flex flex-col-reverse md:flex-row items-center justify-center w-screen md:min-h-[540px] min-h-[150px]`}
     >
       {type === "video" ? (
         <video
           width={320}
           height={240}
-          src={url}
+          src={bannerUrl}
           title="banner video"
           preload="auto"
           autoPlay
@@ -22,7 +24,7 @@ const Banner = ({ url, type }: BANNER) => {
         />
       ) : (
         <Image
-          src={url}
+          src={bannerUrl}
           alt="banner"
           width={1080}
           height={420}
@@ -30,7 +32,7 @@ const Banner = ({ url, type }: BANNER) => {
           style={{ objectFit: "cover" }}
         />
       )}
-    </div>
+    </a>
   );
 };
 

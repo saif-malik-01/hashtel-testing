@@ -2,30 +2,31 @@
 
 import admin from "@/lib/firebase-admin";
 
-const VIDEO_EXTENSIONS = [".mp4", ".webm", ".ogg"];
-
 export const getBanners = async () => {
   try {
-    const storage = admin.storage().bucket();
-    const [files] = await storage.getFiles({ prefix: "banners/" });
+    const db = admin.firestore();
+    const bannersRef = db.collection("banners");
+    const snapshot = await bannersRef.get();
 
-    const fileList = await Promise.all(
-      files.map(async (file) => {
-        const url = await file.getSignedUrl({
-          action: "read",
-          expires: Date.now() + 1000 * 60 * 60 * 24, // 24-hour expiry
-        });
+    if (snapshot.empty) {
+      console.log("No banners found in Firestore.");
+      return [];
+    }
 
-        const ext = file.name.split(".").pop()?.toLowerCase() || "";
-        const type = VIDEO_EXTENSIONS.includes(`.${ext}`) ? "video" : "image";
+    const fileList = snapshot.docs.map((doc) => {
+      const data = doc.data();
+      const bannerUrl = data.bannerUrl || "";
+      const link = data.link || "";
+      let type = bannerUrl.includes(".mp4") ? "video" : "image";
+      if(type !== "video") type = bannerUrl.includes(".webm") ? "video" : "image";
+      if(type !== "video") type = bannerUrl.includes(".ogg") ? "video" : "image";
 
-        return { url: url[0], type };
-      })
-    );
+      return { bannerUrl, link, type };
+    });
 
     return fileList;
   } catch (error) {
-    console.error("Error fetching banner files:", error);
+    console.error("Error fetching banners from Firestore:", error);
     return [];
   }
 };

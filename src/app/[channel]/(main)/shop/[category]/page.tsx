@@ -7,7 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import Filters from "./components/filters";
+import Filters from "@/components/shop/filters";
 import { executeGraphQL } from "@/lib/graphql";
 import {
   FilteredProductItemListDocument,
@@ -75,7 +75,11 @@ export default async function CategoryPage({
         </BreadcrumbList>
       </Breadcrumb>
       <div className="mt-12 flex">
-        <Filters channel={channel} category={category} categories={categories}/>
+        <Filters
+          channel={channel}
+          category={category}
+          categories={categories}
+        />
         <div className="grid md:grid-cols-3 grid-cols-2 md:gap-8 gap-4">
           {products.map((p) => (
             <ProductCard channel={channel} key={p.id} {...p} />

@@ -1,8 +1,8 @@
 import {
-  type ProductListItemFragment,
+  ProductDetailsQuery,
   type VariantDetailsFragment,
 } from "@/gql/graphql";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
 
 export function VariantSelector({
@@ -12,7 +12,7 @@ export function VariantSelector({
   channel,
 }: {
   variants: VariantDetailsFragment[];
-  product: ProductListItemFragment;
+  product: ProductDetailsQuery["product"];
   selectedVariant?: VariantDetailsFragment;
   channel: string;
 }) {
@@ -75,6 +75,9 @@ export function VariantSelector({
 
   return (
     <>
+      {(colors.length > 1 || conditions?.length > 1) && (
+        <div className="border-b w-full mt-2" />
+      )}
       {colors.length > 1 && (
         <fieldset role="radiogroup" data-testid="ColorSelector">
           <legend className="text-gray-600 font-light">Choose Color:</legend>
@@ -84,7 +87,7 @@ export function VariantSelector({
               return (
                 <Link
                   scroll={false}
-                  href={`/${channel}/products/${product.slug}/?variantId=${variantId}`}
+                  href={`/${channel}/products/${product?.slug}/?variantId=${variantId}`}
                 >
                   <Button
                     key={color}
@@ -99,7 +102,7 @@ export function VariantSelector({
         </fieldset>
       )}
 
-      {!!conditions.length && (
+      {conditions?.length > 1 && (
         <fieldset role="radiogroup" data-testid="ColorSelector">
           <legend className="text-gray-600 font-light">
             Choose Condition:
@@ -114,7 +117,7 @@ export function VariantSelector({
                 return (
                   <Link
                     scroll={false}
-                    href={`/${channel}/products/${product.slug}?variantId=${variantId}`}
+                    href={`/${channel}/products/${product?.slug}?variantId=${variantId}`}
                   >
                     <Button
                       key={condition}

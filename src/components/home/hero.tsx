@@ -10,10 +10,12 @@ import Banner from "./banner";
 
 type BANNER = {
   type: string;
-  url: string;
+  link: string;
+  bannerUrl: string;
 };
 
 const Hero = ({ banners }: { banners: BANNER[] }) => {
+  console.log(banners)
   return (
     <Carousel
       plugins={[

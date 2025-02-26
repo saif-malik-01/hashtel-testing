@@ -17,8 +17,8 @@ const ProductCard = ({
 }: ProductListItemFragment & { channel: string }) => {
   return (
     <div className="h-fit border-0 md:min-w-[240px] lg:min-w-[260px] lg:w-[260px] min-w-[160px]">
-      <div className="relative flex flex-col items-center bg-accent w-full h-full object-cover group/card cursor-pointer">
-        <Link href={`/${channel}/products/${slug}`}>
+      <div className="relative flex flex-col items-center w-full h-full object-cover group/card cursor-pointer">
+        <Link href={`/${channel}/products/${slug}`} className="w-full h-full">
           <Image
             src={thumbnail?.url || ""}
             width={220}

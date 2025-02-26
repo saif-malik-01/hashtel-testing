@@ -1,6 +1,6 @@
-import { Checkbox as ShadCheckbox } from "../../../../../../components/ui/checkbox";
+import { Checkbox as ShadCheckbox } from "@/components/ui/checkbox";
 
-export default function Checkbox({ label = "", onChange, ...rest }) {
+export default function Checkbox({ label = "", onChange = () => {}, ...rest }) {
   return (
     <div className="items-top flex w-[60%] justify-between">
       <label
