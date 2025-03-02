@@ -45,9 +45,11 @@ const Detail = async ({
   const originalPrice = variant?.pricing?.priceUndiscounted?.gross?.amount;
   const discountedPrice = variant?.pricing?.price?.gross?.amount || 0;
 
-  const discount = originalPrice
-    ? ((originalPrice - discountedPrice) / originalPrice) * 100
-    : 0;
+  const discount = Math.floor(
+    originalPrice
+      ? ((originalPrice - discountedPrice) / originalPrice) * 100
+      : 0
+  );
 
   return (
     <>

@@ -7,7 +7,7 @@ query ProductDetails($slug: String!, $channel: String!) {
     seoTitle
     seoDescription
     rating
-    thumbnail(size: 512, format: WEBP) {
+    thumbnail(size: 360, format: WEBP) {
       url
       alt
     }
