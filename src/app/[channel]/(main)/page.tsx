@@ -5,7 +5,6 @@ import CategoryListings from "@/components/home/category-listings";
 import Categories from "@/components/home/categories";
 import Hero from "@/components/home//hero";
 import BestSellerProducts from "@/components/home/bestSellerProducts";
-import { getBanners } from "@/actions/home";
 
 export default async function HomePage({
   params,
@@ -13,10 +12,10 @@ export default async function HomePage({
   params: Promise<{ channel: string }>;
 }) {
   const { channel } = await params;
-  const banners = await getBanners();
+
   return (
     <>
-      <Hero banners={banners} />
+      <Hero />
       <RecentProducts channel={channel} />
       <Categories channel={channel} />
       <CategoryListings />
