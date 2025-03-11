@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { Facebook } from "lucide-react";
 
 const LINKS = [
   { title: "Home", path: "/" },
@@ -53,6 +54,12 @@ const Footer = ({ channel }: { channel: string }) => {
               reserved
             </p>
             <NextLink
+              href="/b2b/terms-and-conditions"
+              className="font-[500] text-sm leading-5 text-black"
+            >
+              T&C
+            </NextLink>
+            <NextLink
               href="/b2b/privacy-policy"
               className="font-[500] text-sm leading-5 text-black"
             >
@@ -81,7 +88,7 @@ const Footer = ({ channel }: { channel: string }) => {
                   >
                     <Image
                       alt=""
-                      src="/icons/instagram.png"
+                      src="/icons/instagram.svg"
                       height={24}
                       width={24}
                     />
@@ -99,12 +106,7 @@ const Footer = ({ channel }: { channel: string }) => {
                     className="!px-0"
                     href=" https://www.facebook.com/p/Hashtel-100095177684761/"
                   >
-                    <Image
-                      alt=""
-                      src="/icons/facebook.png"
-                      height={24}
-                      width={24}
-                    />
+                    <Facebook className="text-blue-600"/>
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -118,9 +120,9 @@ const Footer = ({ channel }: { channel: string }) => {
                   <Link className="!px-0" href=" https://wa.link/t2h14h">
                     <Image
                       alt=""
-                      src="/icons/whatsapp.png"
-                      height={24}
-                      width={24}
+                      src="/icons/whatsapp.svg"
+                      height={28}
+                      width={28}
                     />
                   </Link>
                 </TooltipTrigger>

@@ -52,8 +52,10 @@ export async function addItem(channel: string, selectedVariantID: string) {
     },
     cache: "no-cache",
   });
-
-  console.log(data.checkoutLinesAdd,"test");
-
+  
   revalidatePath("/cart");
+
+  if (data.checkoutLinesAdd?.errors) {
+    return data.checkoutLinesAdd.errors?.[0]?.message;
+  }
 }

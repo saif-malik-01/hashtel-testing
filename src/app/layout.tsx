@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import "./globals.css";
 import Analytics from "@/components/shared/analytics";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,8 +22,10 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Analytics/>
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <Analytics />
+      <body className={`${inter.className} antialiased`}>
+        {children} <Toaster />
+      </body>
     </html>
   );
 }

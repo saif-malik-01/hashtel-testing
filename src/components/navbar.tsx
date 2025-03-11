@@ -45,8 +45,8 @@ export default async function Navbar({ channel }: { channel: string }) {
         <Link href="/">
           <Image
             src="/hashtel-logo.png"
-            width={50}
-            height={56}
+            width={60}
+            height={66}
             alt="Hashtel Logo"
           />
         </Link>

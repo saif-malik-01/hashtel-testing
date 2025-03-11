@@ -1,10 +1,9 @@
 import Image from "next/image";
 
 import Rating from "./rating";
-import { Button } from "./ui/button";
 import { ProductListItemFragment } from "@/gql/graphql";
 import Link from "next/link";
-import { addItem } from "@/actions/cart";
+import AddToCart from "./add-to-cart";
 
 const ProductCard = ({
   name,
@@ -32,14 +31,9 @@ const ProductCard = ({
             className="w-full h-full"
           />
         </Link>
-        <form
-          className="flex justify-center opacity-0 group-hover/card:opacity-100 transition-opacity w-full absolute bottom-2"
-          action={addItem.bind(null, channel, defaultVariant?.id || "")}
-        >
-          <Button className="w-[95%]" type="submit">
-            Add to Cart
-          </Button>
-        </form>
+        {defaultVariant?.id && (
+          <AddToCart channel={channel} variantId={defaultVariant.id} />
+        )}
       </div>
       <div className="flex flex-col items-start gap-1 mt-2">
         <Rating rating={rating || 0} />

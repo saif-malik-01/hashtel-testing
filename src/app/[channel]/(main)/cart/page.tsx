@@ -61,7 +61,9 @@ export default async function Cart({
               <div className="relative flex flex-1 flex-col justify-between p-4 py-2">
                 <div className="flex justify-between justify-items-start gap-4">
                   <div>
-                    <Link href={``}>
+                    <Link
+                      href={`/${channel}/products/${item.variant.product.slug}`}
+                    >
                       <h2 className="font-medium text-neutral-700">
                         {item.variant?.product?.name}
                       </h2>
@@ -77,7 +79,7 @@ export default async function Cart({
                       )}
                   </div>
                   <p className="text-right font-semibold text-neutral-900">
-                    {item.totalPrice.gross.amount}
+                    ₹{item.totalPrice.gross.amount}
                   </p>
                 </div>
                 <div className="flex justify-between">
@@ -99,12 +101,12 @@ export default async function Cart({
                 </p>
               </div>
               <div className="font-medium text-neutral-900">
-                {checkout.totalPrice.gross.amount}
+                ₹ {checkout.totalPrice.gross.amount}
               </div>
             </div>
           </div>
           <div className="mt-10 text-center">
-            <Link href={"/"}>
+            <Link href={`/${channel}/cart/checkout`}>
               <Button size="lg">Checkout</Button>
             </Link>
           </div>
