@@ -1,13 +1,42 @@
+"use client";
+
 import { onRegister } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import { FormEvent, useState } from "react";
 
-export default async function SignUpForm({ channel }: { channel: string }) {
+export default function SignUpForm({
+  channel,
+  redirect,
+}: {
+  channel: string;
+  redirect?: string;
+}) {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const errors = await onRegister(redirect, channel, formData);
+    if (errors?.[0]) {
+      toast({
+        title: "Error",
+        description: errors[0].message,
+        variant: "destructive",
+      });
+      alert(errors[0].message);
+    }
+    setLoading(false);
+  };
+
   return (
     <form
-      action={onRegister.bind(null, channel)}
+      onSubmit={handleSubmit}
       className="space-y-8 bg-white border rounded-2xl p-8"
     >
       <div className="space-y-2 text-center">
@@ -48,14 +77,14 @@ export default async function SignUpForm({ channel }: { channel: string }) {
           <Label htmlFor="password">Password</Label>
           <Input name="password" id="password" required type="password" />
         </div>
-        <Button className="w-full" type="submit">
-          Sign Up
+        <Button disabled={loading} className="w-full" type="submit">
+          {loading ? "Loading..." : "Sign Up"}
         </Button>
       </div>
       <div className="mt-4 text-center text-sm">
         Already have an account?{" "}
         <Link
-          href={`/${channel}/sign-in`}
+          href={`/${channel}/sign-in${redirect ? `?redirect=${redirect}` : ""}`}
           className="underline"
         >
           Sign in

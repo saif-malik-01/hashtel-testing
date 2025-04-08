@@ -33345,7 +33345,7 @@ export type CheckoutFindQueryVariables = Exact<{
 }>;
 
 
-export type CheckoutFindQuery = { __typename?: 'Query', checkout?: { __typename?: 'Checkout', id: string, email?: string | null, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } }, variant: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, country: { __typename?: 'CountryDisplay', country: string } } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, country: { __typename?: 'CountryDisplay', country: string } } | null, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', net: { __typename?: 'Money', amount: number } } } | null };
+export type CheckoutFindQuery = { __typename?: 'Query', checkout?: { __typename?: 'Checkout', id: string, email?: string | null, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } }, variant: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, country: { __typename?: 'CountryDisplay', country: string } } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, country: { __typename?: 'CountryDisplay', country: string } } | null, discount?: { __typename?: 'Money', amount: number } | null, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', net: { __typename?: 'Money', amount: number } } } | null };
 
 export type ConfirmUserMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -33425,6 +33425,22 @@ export type RegisterUserMutationVariables = Exact<{
 
 
 export type RegisterUserMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', errors: Array<{ __typename?: 'AccountError', field?: string | null, code: AccountErrorCode, message?: string | null }>, user?: { __typename?: 'User', email: string, isActive: boolean, isConfirmed: boolean } | null } | null };
+
+export type UpdateCheckoutBillingMutationVariables = Exact<{
+  billingAddress: AddressInput;
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type UpdateCheckoutBillingMutation = { __typename?: 'Mutation', checkoutBillingAddressUpdate?: { __typename?: 'CheckoutBillingAddressUpdate', checkout?: { __typename?: 'Checkout', billingAddress?: { __typename?: 'Address', firstName: string, lastName: string, streetAddress1: string, city: string, countryArea: string, postalCode: string } | null } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
+
+export type UpdateCheckoutShippingMutationVariables = Exact<{
+  shippingAddress: AddressInput;
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type UpdateCheckoutShippingMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', checkout?: { __typename?: 'Checkout', shippingAddress?: { __typename?: 'Address', firstName: string, lastName: string, streetAddress1: string, city: string, countryArea: string, postalCode: string } | null } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -33728,6 +33744,9 @@ export const CheckoutFindDocument = new TypedDocumentString(`
         country
       }
       postalCode
+    }
+    discount {
+      amount
     }
     totalPrice {
       gross {
@@ -34082,6 +34101,48 @@ export const RegisterUserDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RegisterUserMutation, RegisterUserMutationVariables>;
+export const UpdateCheckoutBillingDocument = new TypedDocumentString(`
+    mutation UpdateCheckoutBilling($billingAddress: AddressInput!, $id: ID!) {
+  checkoutBillingAddressUpdate(billingAddress: $billingAddress, id: $id) {
+    checkout {
+      billingAddress {
+        firstName
+        lastName
+        streetAddress1
+        city
+        countryArea
+        postalCode
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCheckoutBillingMutation, UpdateCheckoutBillingMutationVariables>;
+export const UpdateCheckoutShippingDocument = new TypedDocumentString(`
+    mutation UpdateCheckoutShipping($shippingAddress: AddressInput!, $id: ID!) {
+  checkoutShippingAddressUpdate(shippingAddress: $shippingAddress, id: $id) {
+    checkout {
+      shippingAddress {
+        firstName
+        lastName
+        streetAddress1
+        city
+        countryArea
+        postalCode
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCheckoutShippingMutation, UpdateCheckoutShippingMutationVariables>;
 export const UpdateUserDocument = new TypedDocumentString(`
     mutation UpdateUser($id: ID, $updates: AccountInput!) {
   accountUpdate(customerId: $id, input: $updates) {

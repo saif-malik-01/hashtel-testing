@@ -34,9 +34,11 @@ export default async function CheckoutPage({
     <div className="flex py-16 px-32 justify-center gap-8">
       <CheckoutForm />
       <OrderSummary
-        subtotal={checkout.totalPrice.gross.amount}
+        subtotal={checkout.totalPrice.net.amount}
         tax={checkout.totalPrice.tax.amount}
         shippingPrice={checkout.shippingPrice.net.amount}
+        total={checkout.totalPrice.gross.amount}
+        discount={0}
       />
     </div>
   );

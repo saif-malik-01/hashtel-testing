@@ -3,8 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { executeGraphQL } from "@/lib/graphql";
 import {
+  AddressInput,
   CheckoutAddLineDocument,
   CheckoutDeleteLinesDocument,
+  UpdateCheckoutShippingDocument,
 } from "@/gql/graphql";
 import * as Checkout from "@/lib/checkout";
 
@@ -52,10 +54,30 @@ export async function addItem(channel: string, selectedVariantID: string) {
     },
     cache: "no-cache",
   });
-  
+
   revalidatePath("/cart");
 
   if (data.checkoutLinesAdd?.errors) {
     return data.checkoutLinesAdd.errors?.[0]?.message;
   }
 }
+
+type updateCheckoutShippingArgs = {
+  checkoutId: string;
+  shippingAddress: AddressInput;
+};
+
+export const updateCheckoutShipping = async ({
+  shippingAddress,
+  checkoutId,
+}: updateCheckoutShippingArgs) => {
+  await executeGraphQL(UpdateCheckoutShippingDocument, {
+    variables: {
+      id: checkoutId,
+      shippingAddress,
+    },
+    cache: "no-cache",
+  });
+
+  revalidatePath("/cart/checkout");
+};

@@ -4,7 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
-export default async function SignInForm({ channel }: { channel: string }) {
+export default async function SignInForm({
+  channel,
+  redirect,
+}: {
+  channel: string;
+  redirect: string | undefined;
+}) {
   return (
     <form
       action={onSignIn}
@@ -36,7 +42,13 @@ export default async function SignInForm({ channel }: { channel: string }) {
         </Button>
       </div>
       <div className="mt-4 text-center text-sm">
-        Don't have an account? <Link href={`/${channel}/sign-up`} className="underline">Sign up</Link>
+        Don't have an account?{" "}
+        <Link
+          href={`/${channel}/sign-up${redirect ? `?redirect=${redirect}` : ""}`}
+          className="underline"
+        >
+          Sign up
+        </Link>
       </div>
     </form>
   );

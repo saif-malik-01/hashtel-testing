@@ -3,10 +3,13 @@ import SignUpForm from "./components/sign-up-form";
 
 export default async function SignUp({
   params,
+  searchParams,
 }: {
   params: Promise<{ channel: string }>;
+  searchParams: Promise<{ redirect?: string }>;
 }) {
   const { channel } = await params;
+  const { redirect } = await searchParams;
 
   return (
     <main className="flex md:flex-row flex-col md:h-screen">
@@ -36,7 +39,7 @@ export default async function SignUp({
       </aside>
 
       <div className="w-1/2 flex items-center justify-center">
-        <SignUpForm channel={channel}/>
+        <SignUpForm channel={channel} redirect={redirect} />
       </div>
     </main>
   );

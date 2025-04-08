@@ -3,10 +3,14 @@ import SignInForm from "./components/sign-in-form";
 
 export default async function SignInPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ channel: string }>;
+  searchParams: Promise<{ redirect: string | undefined}>;
 }) {
   const { channel } = await params;
+  const { redirect } = await searchParams;
+
   return (
     <main className="flex md:flex-row flex-col md:h-screen">
       <aside className="bg-accent md:w-[50%] relative flex items-center justify-center p-8">
@@ -34,7 +38,7 @@ export default async function SignInPage({
         </div>
       </aside>
       <div className="w-1/2 flex items-center justify-center">
-        <SignInForm channel={channel} />
+        <SignInForm channel={channel} redirect={redirect} />
       </div>
     </main>
   );

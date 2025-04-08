@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  ConfirmUserDocument,
-  RegisterUserDocument,
-  UpdateUserDocument,
-} from "@/gql/graphql";
+import { RegisterUserDocument, UpdateUserDocument } from "@/gql/graphql";
 import { getServerAuthClient } from "@/lib/client";
 import { executeGraphQL } from "@/lib/graphql";
 import { cookies } from "next/headers";
@@ -24,7 +20,11 @@ export const onSignIn = async (formData: FormData) => {
   }
 };
 
-export const onRegister = async (channel: string, formData: FormData) => {
+export const onRegister = async (
+  redirectedUrl: string | undefined,
+  channel: string,
+  formData: FormData
+) => {
   const email = formData.get("email")?.toString() || "";
   const password = formData.get("password")?.toString() || "";
   const firstName = formData.get("firstName")?.toString() || "";
@@ -37,7 +37,11 @@ export const onRegister = async (channel: string, formData: FormData) => {
       password,
       firstName,
       lastName,
-      redirectUrl: "http://localhost:3000/" + channel + "/account-confirm/",
+      redirectUrl:
+        "http://localhost:3000/" +
+        channel +
+        "/account-confirm" +
+        (redirectedUrl ? `?redirect=${redirectedUrl}` : ""),
     },
   });
 
@@ -47,6 +51,8 @@ export const onRegister = async (channel: string, formData: FormData) => {
   if (data.accountRegister?.user) {
     redirect(`/${channel}/verify-email`);
   }
+
+  return data.accountRegister?.errors;
 };
 
 export const onUpdate = async (formData: {
@@ -78,7 +84,7 @@ export const onUpdateBillingAddress = async (address: any) => {
     withAuth: true,
   });
   console.log(data.accountUpdate?.errors);
-  
+
   return data.accountUpdate?.errors;
 };
 

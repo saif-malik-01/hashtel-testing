@@ -3,6 +3,8 @@ import * as Checkout from "@/lib/checkout";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DeleteLineButton } from "@/components/delete-line-button";
+import { executeGraphQL } from "@/lib/graphql";
+import { CurrentUserDocument } from "@/gql/graphql";
 
 export const metadata = {
   title: "Shopping Cart · Hashtel Inc",
@@ -14,6 +16,7 @@ export default async function Cart({
   params: Promise<{ channel: string }>;
 }) {
   const { channel } = await params;
+  const { me } = await executeGraphQL(CurrentUserDocument, {});
   const checkoutId = await Checkout.getIdFromCookies(channel);
 
   const checkout = await Checkout.find(checkoutId);
@@ -106,7 +109,13 @@ export default async function Cart({
             </div>
           </div>
           <div className="mt-10 text-center">
-            <Link href={`/${channel}/cart/checkout`}>
+            <Link
+              href={
+                me?.id
+                  ? `/${channel}/cart/checkout`
+                  : `/${channel}/sign-in?redirect=/${channel}/cart/checkout`
+              }
+            >
               <Button size="lg">Checkout</Button>
             </Link>
           </div>

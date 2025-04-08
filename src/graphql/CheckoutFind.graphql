@@ -58,6 +58,9 @@ query CheckoutFind($id: ID!) {
       }
       postalCode
     }
+    discount {
+      amount
+    }
     totalPrice {
       gross {
         amount
