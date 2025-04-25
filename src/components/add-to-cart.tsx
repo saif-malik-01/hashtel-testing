@@ -1,9 +1,10 @@
 "use client";
 
-import { addItem } from "@/actions/cart";
+import { onAddLine } from "@/actions/cart";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
   channel: string;
@@ -12,17 +13,19 @@ type Props = {
 
 export default function AddToCart({ channel, variantId }: Props) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const { toast } = useToast();
 
   const handleClick = async () => {
     setLoading(true);
-    const error = await addItem(channel, variantId);
-    if (error) {
-      toast({ title: "Error", description: error, variant: "destructive" });
-    } else {
-      toast({ title: "Success", description: "Item added to cart" });
-    }
+    const res = await onAddLine(channel, variantId);
     setLoading(false);
+    if (res.status !== 200) {
+      toast({ title: "Error", description: res.message, variant: "destructive" });
+    } else {
+      toast({ title: "Success", description: res.message });
+      router.push(`/${channel}/cart`);
+    }
   };
 
   return (
@@ -31,7 +34,7 @@ export default function AddToCart({ channel, variantId }: Props) {
       className="flex justify-center opacity-0 group-hover/card:opacity-100 transition-opacity w-full absolute bottom-2"
       type="submit"
     >
-      {loading ? "Loading..." : "Add to Cart"}
+      {loading ? "Adding..." : "Add to Cart"}
     </Button>
   );
 }

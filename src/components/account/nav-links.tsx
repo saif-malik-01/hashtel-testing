@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,8 +11,9 @@ const LINKS = [
   { title: "Orders", path: "/account/orders" },
 ];
 
-export default function NavLinks({ channel }: { channel: string }) {
+export default function NavLinks() {
   const pathname = usePathname();
+  const { channel } = useParams();
 
   return (
     <ul className="flex flex-col gap-3">

@@ -1,36 +1,71 @@
 "use client";
 
-import { initiatePayment } from "@/actions/payment";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import axios from "axios";
+import { Address } from "./address-validation";
+import { useToast } from "@/hooks/use-toast";
 
 type Props = {
   subtotal: number;
-  tax: number;
   shippingPrice: number;
   total: number;
   discount: number;
+  validAddress: boolean;
+  address?: Address | null;
+  checkoutId: string;
+  channel: string;
+  email: string;
+};
+
+type PaymentResponse = {
+  url: string;
+  formData: Record<string, string>;
+  error: string;
 };
 
 export default function OrderSummary({
   shippingPrice,
   subtotal,
-  tax,
   total,
   discount,
+  validAddress,
+  address,
+  checkoutId,
+  channel,
+  email,
 }: Props) {
-  const [paymentHtml, setPaymentHtml] = useState(null);
+  const { toast } = useToast();
 
-  const handlePay = async () => {
-    const formData = new FormData();
-    formData.set("amount", "100");
-    formData.set("orderInfo", "2343");
-    formData.set("returnUrl", "/localhost:3000/payment-confirm");
-    const res = await initiatePayment(formData);
-    if (res.success && res.html) {
-      // Set the HTML content to render in an iframe or trigger redirection
-      setPaymentHtml(res.html);
+  const handlePayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post<PaymentResponse>("/api/payment", {
+        amount: total,
+        orderInfo: `${checkoutId}`.slice(-40),
+        channel,
+        email,
+      });
+      const { url, error } = response.data;
+      if (url) {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = url;
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        toast({
+          title: "Payment Error",
+          description: error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Payment Error",
+        description: "There was an error processing your payment.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -39,29 +74,40 @@ export default function OrderSummary({
       <h2 className="text-2xl font-semibold text-gray-800">Order Summary</h2>
       <div className="space-y-4">
         <div className="flex justify-between text-gray-600">
-          <span>Subtotal</span>
+          <span>Subtotal (Inc. Tax)</span>
           <span>₹{subtotal}</span>
         </div>
-        <div className="flex justify-between text-gray-600">
-          <span>Tax</span>
-          <span>₹{tax}</span>
-        </div>
+        {!!discount && (
+          <div className="flex justify-between text-gray-600">
+            <span>Voucher</span>
+            <span>-₹{discount}</span>
+          </div>
+        )}
         <div className="flex justify-between text-gray-600">
           <span>Shipping</span>
           <span>
-            {shippingPrice ? "₹" + shippingPrice : "To be calculated"}
+            {address
+              ? validAddress
+                ? "+₹" + shippingPrice
+                : "We are not delivering to this address"
+              : "Enter a valid address"}
           </span>
         </div>
         <Separator className="my-4" />
-        <div className="flex justify-between font-semibold text-lg text-gray-800">
-          <span>Total</span>
-          <span>₹ {total}</span>
-        </div>
-        <Button onClick={handlePay}>Pay</Button>
+        {!!shippingPrice && (
+          <div className="flex justify-between font-semibold text-lg text-gray-800">
+            <span>Total</span>
+            <span>₹ {total}</span>
+          </div>
+        )}
+        <Button
+          className="w-full"
+          disabled={!shippingPrice}
+          onClick={handlePayment}
+        >
+          Proceed to payment
+        </Button>
       </div>
-      {paymentHtml && (
-        <div dangerouslySetInnerHTML={{ __html: paymentHtml }} />
-      )}
     </div>
   );
 }

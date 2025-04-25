@@ -29,7 +29,6 @@ export default function SignUpForm({
         description: errors[0].message,
         variant: "destructive",
       });
-      alert(errors[0].message);
     }
     setLoading(false);
   };

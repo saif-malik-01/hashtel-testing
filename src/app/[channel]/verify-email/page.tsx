@@ -7,12 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Mail } from "lucide-react";
 
-export default async function EmailVerification({
-  params,
-}: {
-  params: Promise<{ channel: string }>;
-}) {
-  const { channel } = await params;
+export default async function EmailVerification() {
   return (
     <div className="min-h-screen bg-gradient-to-br bg-white flex flex-col items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-lg">

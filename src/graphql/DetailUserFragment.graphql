@@ -3,29 +3,25 @@ fragment UserDetails on User {
   email
   firstName
   lastName
-  defaultShippingAddress {
-    id
-    streetAddress1
-    streetAddress2
-    city
-    countryArea
-    country {
-      country
+  checkoutIds
+  orders (first: 10) {
+    edges {
+      node {
+        ...OrderFragment
+      }
     }
-    postalCode
-    isDefaultShippingAddress
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
-  defaultBillingAddress {
-    id
+  defaultShippingAddress {
+    firstName
+    lastName
     streetAddress1
-    streetAddress2
     city
     countryArea
-    country {
-      country
-    }
     postalCode
-    isDefaultBillingAddress
   }
   metadata {
     key

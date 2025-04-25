@@ -1,22 +1,52 @@
 "use server";
 
-import { RegisterUserDocument, UpdateUserDocument } from "@/gql/graphql";
+import {
+  CheckoutAssignDocument,
+  CurrentUserDocument,
+  RegisterUserDocument,
+  UpdateUserDocument,
+} from "@/gql/graphql";
+import * as Checkout from "@/lib/checkout";
 import { getServerAuthClient } from "@/lib/client";
 import { executeGraphQL } from "@/lib/graphql";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const onSignIn = async (formData: FormData) => {
-  const res = await getServerAuthClient().signIn(
+export const onSignIn = async (
+  channel: string,
+  redirectedUrl: string | undefined,
+  formData: FormData
+) => {
+
+  const res = await (await getServerAuthClient()).signIn(
     {
       email: formData.get("email")?.toString() || "",
       password: formData.get("password")?.toString() || "",
     },
-    { cache: "no-store" }
+    { cache: "no-store" },
   );
 
+  const { me } = await executeGraphQL(CurrentUserDocument, {});
+
+  if (!me) {
+    return { status: 500, message: "Server error" };
+  }
+
+  const checkoutId = await Checkout.getIdFromCookies(channel);
+  if (!me.checkoutIds?.includes(checkoutId)) {
+    await executeGraphQL(CheckoutAssignDocument, {
+      variables: {
+        checkoutId: checkoutId,
+        customerId: me.id,
+      },
+    });
+  }
+
+  if (redirectedUrl) {
+    redirect(redirectedUrl);
+  }
+
   if (res.data.tokenCreate) {
-    redirect(`/`);
+    redirect(`/${channel}`);
   }
 };
 
@@ -37,16 +67,13 @@ export const onRegister = async (
       password,
       firstName,
       lastName,
-      redirectUrl:
-        "http://localhost:3000/" +
-        channel +
-        "/account-confirm" +
-        (redirectedUrl ? `?redirect=${redirectedUrl}` : ""),
+      redirectUrl: `${
+        process.env.BASE_URL
+      }/${channel}/account-confirm${
+        redirectedUrl ? `?redirect=${redirectedUrl}` : ""
+      }`,
     },
   });
-
-  const c = await cookies();
-  c.set("password", password);
 
   if (data.accountRegister?.user) {
     redirect(`/${channel}/verify-email`);
@@ -55,27 +82,34 @@ export const onRegister = async (
   return data.accountRegister?.errors;
 };
 
-export const onUpdate = async (formData: {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-}) => {
-  const { firstName, lastName, phoneNumber } = formData;
+export const onUpdateUser = async (formData: FormData) => {
+  const phoneNumber = formData.get("email")?.toString();
+  const firstName = formData.get("firstName")?.toString();
+  const lastName = formData.get("lastName")?.toString();
+
+  if (!firstName || !lastName) {
+    return { status: 500, message: "Complete data required" };
+  }
 
   const data = await executeGraphQL(UpdateUserDocument, {
     variables: {
       updates: {
         firstName,
         lastName,
-        metadata: [{ key: "phoneNumber", value: phoneNumber }],
+        metadata: [{ key: "phoneNumber", value: phoneNumber || "" }],
       },
     },
   });
-  return data.accountUpdate?.errors;
+
+  if (data.accountUpdate?.errors[0]) {
+    return { status: 500, message: data.accountUpdate?.errors[0].message };
+  }
+
+  return { status: 200, message: "User updated" };
 };
 
-export const onUpdateBillingAddress = async (address: any) => {
-  const data = await executeGraphQL(UpdateUserDocument, {
+export const onUpdateAddress = async (address: any) => {
+  const billingRes = await executeGraphQL(UpdateUserDocument, {
     variables: {
       updates: {
         defaultBillingAddress: address,
@@ -83,13 +117,8 @@ export const onUpdateBillingAddress = async (address: any) => {
     },
     withAuth: true,
   });
-  console.log(data.accountUpdate?.errors);
 
-  return data.accountUpdate?.errors;
-};
-
-export const onUpdateShippingAddress = async (address: any) => {
-  const data = await executeGraphQL(UpdateUserDocument, {
+  const shippingRes = await executeGraphQL(UpdateUserDocument, {
     variables: {
       updates: {
         defaultShippingAddress: address,
@@ -97,5 +126,25 @@ export const onUpdateShippingAddress = async (address: any) => {
     },
     withAuth: true,
   });
-  return data.accountUpdate?.errors;
+
+  if (
+    shippingRes.accountUpdate?.errors[0] ||
+    billingRes.accountUpdate?.errors[0]
+  ) {
+    return {
+      status: 500,
+      message:
+        shippingRes.accountUpdate?.errors[0].message ||
+        billingRes.accountUpdate?.errors[0].message,
+    };
+  }
+
+  return {
+    status: 200,
+    message: "Address updated",
+  };
+};
+
+export const onLogout = async () => {
+  await (await getServerAuthClient()).signOut();
 };

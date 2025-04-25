@@ -2,16 +2,22 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Address } from "./address-validation";
+import { State } from "country-state-city";
+import { Address } from "../checkout/address-validation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface ShippingFormProps {
   formData: Address;
   setFormData: (data: Address) => void;
-  errors: { [key: string]: string };
 }
 
-export default function ShippingForm({
-  errors,
+export default function AddressForm({
   formData,
   setFormData,
 }: ShippingFormProps) {
@@ -22,7 +28,6 @@ export default function ShippingForm({
 
   return (
     <form className="space-y-6">
-      <h2 className="text-2xl font-semibold text-gray-800">Address</h2>
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="first-name" className="text-gray-600">
@@ -34,13 +39,7 @@ export default function ShippingForm({
             value={formData?.firstName || ""}
             onChange={handleChange}
             placeholder="John"
-            className={`border-gray-300 focus:ring-red-500 focus:border-red-500 ${
-              errors.firstName ? "border-red-500" : ""
-            }`}
           />
-          {errors.firstName && (
-            <p className="text-red-500 text-sm">{errors.firstName}</p>
-          )}
         </div>
         <div className="space-y-2">
           <Label htmlFor="last-name" className="text-gray-600">
@@ -52,13 +51,7 @@ export default function ShippingForm({
             value={formData?.lastName || ""}
             onChange={handleChange}
             placeholder="Doe"
-            className={`border-gray-300 focus:ring-red-500 focus:border-red-500 ${
-              errors.lastName ? "border-red-500" : ""
-            }`}
           />
-          {errors.lastName && (
-            <p className="text-red-500 text-sm">{errors.lastName}</p>
-          )}
         </div>
       </div>
       <div className="space-y-2">
@@ -71,13 +64,7 @@ export default function ShippingForm({
           value={formData?.streetAddress1 || ""}
           onChange={handleChange}
           placeholder="123 Main St"
-          className={`border-gray-300 focus:ring-red-500 focus:border-red-500 ${
-            errors.streetAddress1 ? "border-red-500" : ""
-          }`}
         />
-        {errors.streetAddress1 && (
-          <p className="text-red-500 text-sm">{errors.streetAddress1}</p>
-        )}
       </div>
       <div className="grid grid-cols-3 gap-6">
         <div className="space-y-2">
@@ -90,29 +77,29 @@ export default function ShippingForm({
             value={formData?.city || ""}
             onChange={handleChange}
             placeholder="Greater Noida"
-            className={`border-gray-300 focus:ring-red-500 focus:border-red-500 ${
-              errors.city ? "border-red-500" : ""
-            }`}
           />
-          {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="state" className="text-gray-600">
-            State
+          <Label htmlFor="zip" className="text-gray-600">
+            City
           </Label>
-          <Input
-            id="state"
-            name="countryArea"
-            value={formData?.countryArea || ""}
-            onChange={handleChange}
-            placeholder="Uttarakhand"
-            className={`border-gray-300 focus:ring-red-500 focus:border-red-500 ${
-              errors.countryArea ? "border-red-500" : ""
-            }`}
-          />
-          {errors.countryArea && (
-            <p className="text-red-500 text-sm">{errors.countryArea}</p>
-          )}
+          <Select
+            defaultValue={formData?.countryArea}
+            onValueChange={(val) =>
+              setFormData({ ...formData, countryArea: val })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="State" />
+            </SelectTrigger>
+            <SelectContent>
+              {State.getStatesOfCountry("IN").map((c) => (
+                <SelectItem key={c.name} value={c.name}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="zip" className="text-gray-600">
@@ -124,13 +111,8 @@ export default function ShippingForm({
             value={formData?.postalCode || ""}
             onChange={handleChange}
             placeholder="10001"
-            className={`border-gray-300 focus:ring-red-500 focus:border-red-500 ${
-              errors.postalCode ? "border-red-500" : ""
-            }`}
+            min={6}
           />
-          {errors.postalCode && (
-            <p className="text-red-500 text-sm">{errors.postalCode}</p>
-          )}
         </div>
       </div>
     </form>

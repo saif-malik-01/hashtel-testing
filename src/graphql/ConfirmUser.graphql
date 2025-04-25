@@ -5,9 +5,11 @@ mutation ConfirmUser($email: String!, $token: String!) {
       code
     }
     user {
+      id
       email
       isActive
       isConfirmed
+      checkoutIds
     }
   }
 }

@@ -1,0 +1,9 @@
+mutation CheckoutAssign($checkoutId: ID!, $customerId: ID!) {
+  checkoutCustomerAttach(id: $checkoutId, customerId: $customerId) {
+    errors {
+      message
+      code
+      field
+    }
+  }
+}

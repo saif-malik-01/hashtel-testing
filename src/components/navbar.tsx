@@ -42,7 +42,7 @@ export default async function Navbar({ channel }: { channel: string }) {
   return (
     <nav className="bg-white w-full border-b border-gray-100 md:px-32 px-6 py-4">
       <div className="w-full flex items-center justify-between">
-        <Link href="/">
+        <Link href={`/${channel}`}>
           <Image
             src="/hashtel-logo.png"
             width={60}

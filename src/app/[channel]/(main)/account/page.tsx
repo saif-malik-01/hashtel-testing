@@ -1,10 +1,9 @@
 import { CurrentUserDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
-import UserDetailsForm from "./components/user-details-form";
+import UserDetailsForm from "@/components/account/user-details-form";
 
 export default async function Account() {
   const { me } = await executeGraphQL(CurrentUserDocument, { withAuth: true });
-  console.log(me);
 
   return (
     <UserDetailsForm

@@ -1,15 +1,13 @@
 mutation UpdateCheckoutShipping($shippingAddress: AddressInput!, $id: ID!) {
-  checkoutShippingAddressUpdate(shippingAddress: $shippingAddress, id: $id) {
-    checkout {
-      shippingAddress {
-        firstName
-        lastName
-        streetAddress1
-        city
-        countryArea
-        postalCode
-      }
+  checkoutShippingAddressUpdate(
+    shippingAddress: $shippingAddress
+    id: $id
+    validationRules: {
+      checkFieldsFormat: false
+      checkRequiredFields: false
+      enableFieldsNormalization: false
     }
+  ) {
     errors {
       field
       message

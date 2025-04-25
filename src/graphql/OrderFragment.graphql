@@ -1,0 +1,107 @@
+fragment OrderFragment on Order {
+  id
+  voucherCode
+  lines {
+    id
+    quantity
+    undiscountedTotalPrice {
+      net {
+        amount
+      }
+      gross {
+        amount
+      }
+    }
+    variant {
+      product {
+        id
+        name
+        slug
+        thumbnail {
+          url
+          alt
+        }
+        category {
+          name
+        }
+      }
+      pricing {
+        price {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      name
+      id
+    }
+  }
+  billingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  shippingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  discounts {
+    amount {
+      amount
+    }
+  }
+  subtotal {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  total {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  shippingPrice {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  statusDisplay
+  status
+  created
+  updatedAt
+  number
+  shippingMethods {
+    maximumDeliveryDays
+    minimumDeliveryDays
+    name
+  }
+  shippingMethodName 
+}

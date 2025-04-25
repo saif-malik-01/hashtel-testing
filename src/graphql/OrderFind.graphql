@@ -1,0 +1,5 @@
+query OrderFind($id: ID!) {
+  order(id: $id) {
+    ...OrderFragment
+  }
+}

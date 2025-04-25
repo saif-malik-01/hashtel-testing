@@ -1,15 +1,13 @@
 mutation UpdateCheckoutBilling($billingAddress: AddressInput!, $id: ID!) {
-  checkoutBillingAddressUpdate(billingAddress: $billingAddress, id: $id) {
-    checkout {
-      billingAddress {
-        firstName
-        lastName
-        streetAddress1
-        city
-        countryArea
-        postalCode
-      }
+  checkoutBillingAddressUpdate(
+    billingAddress: $billingAddress
+    id: $id
+    validationRules: {
+      checkFieldsFormat: false
+      checkRequiredFields: false
+      enableFieldsNormalization: false
     }
+  ) {
     errors {
       field
       message

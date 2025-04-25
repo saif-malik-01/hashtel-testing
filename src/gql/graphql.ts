@@ -33325,6 +33325,22 @@ export type CheckoutAddLineMutationVariables = Exact<{
 
 export type CheckoutAddLineMutation = { __typename?: 'Mutation', checkoutLinesAdd?: { __typename?: 'CheckoutLinesAdd', checkout?: { __typename?: 'Checkout', id: string, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, variant: { __typename?: 'ProductVariant', name: string, product: { __typename?: 'Product', name: string } } }> } | null, errors: Array<{ __typename?: 'CheckoutError', message?: string | null }> } | null };
 
+export type CheckoutAddPromoMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  promoCode: Scalars['String']['input'];
+}>;
+
+
+export type CheckoutAddPromoMutation = { __typename?: 'Mutation', checkoutAddPromoCode?: { __typename?: 'CheckoutAddPromoCode', errors: Array<{ __typename?: 'CheckoutError', message?: string | null }> } | null };
+
+export type CheckoutAssignMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  customerId: Scalars['ID']['input'];
+}>;
+
+
+export type CheckoutAssignMutation = { __typename?: 'Mutation', checkoutCustomerAttach?: { __typename?: 'CheckoutCustomerAttach', errors: Array<{ __typename?: 'CheckoutError', message?: string | null, code: CheckoutErrorCode, field?: string | null }> } | null };
+
 export type CheckoutCreateMutationVariables = Exact<{
   channel: Scalars['String']['input'];
 }>;
@@ -33338,14 +33354,30 @@ export type CheckoutDeleteLinesMutationVariables = Exact<{
 }>;
 
 
-export type CheckoutDeleteLinesMutation = { __typename?: 'Mutation', checkoutLinesDelete?: { __typename?: 'CheckoutLinesDelete', checkout?: { __typename?: 'Checkout', id: string } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, code: CheckoutErrorCode }> } | null };
+export type CheckoutDeleteLinesMutation = { __typename?: 'Mutation', checkoutLinesDelete?: { __typename?: 'CheckoutLinesDelete', errors: Array<{ __typename?: 'CheckoutError', message?: string | null }> } | null };
 
 export type CheckoutFindQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CheckoutFindQuery = { __typename?: 'Query', checkout?: { __typename?: 'Checkout', id: string, email?: string | null, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } }, variant: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, country: { __typename?: 'CountryDisplay', country: string } } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, country: { __typename?: 'CountryDisplay', country: string } } | null, discount?: { __typename?: 'Money', amount: number } | null, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', net: { __typename?: 'Money', amount: number } } } | null };
+export type CheckoutFindQuery = { __typename?: 'Query', checkout?: { __typename?: 'Checkout', id: string, discountName?: string | null, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, undiscountedTotalPrice: { __typename?: 'Money', amount: number }, variant: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } } | null } | null } }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, discount?: { __typename?: 'Money', amount: number } | null, subtotalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, totalPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingMethods: Array<{ __typename?: 'ShippingMethod', id: string, active: boolean }>, deliveryMethod?: { __typename: 'ShippingMethod' } | { __typename: 'Warehouse' } | null } | null };
+
+export type CheckoutUpdateLineMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  lineId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type CheckoutUpdateLineMutation = { __typename?: 'Mutation', checkoutLinesUpdate?: { __typename?: 'CheckoutLinesUpdate', errors: Array<{ __typename?: 'CheckoutError', message?: string | null }> } | null };
+
+export type CompleteCheckoutMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+}>;
+
+
+export type CompleteCheckoutMutation = { __typename?: 'Mutation', checkoutComplete?: { __typename?: 'CheckoutComplete', order?: { __typename?: 'Order', id: string } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null }> } | null };
 
 export type ConfirmUserMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -33353,14 +33385,14 @@ export type ConfirmUserMutationVariables = Exact<{
 }>;
 
 
-export type ConfirmUserMutation = { __typename?: 'Mutation', confirmAccount?: { __typename?: 'ConfirmAccount', errors: Array<{ __typename?: 'AccountError', field?: string | null, code: AccountErrorCode }>, user?: { __typename?: 'User', email: string, isActive: boolean, isConfirmed: boolean } | null } | null };
+export type ConfirmUserMutation = { __typename?: 'Mutation', confirmAccount?: { __typename?: 'ConfirmAccount', errors: Array<{ __typename?: 'AccountError', field?: string | null, code: AccountErrorCode }>, user?: { __typename?: 'User', id: string, email: string, isActive: boolean, isConfirmed: boolean, checkoutIds?: Array<string> | null } | null } | null };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, defaultShippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, isDefaultShippingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', country: string } } | null, defaultBillingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, isDefaultBillingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', country: string } } | null, metadata: Array<{ __typename?: 'MetadataItem', key: string, value: string }>, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null } | null };
+export type CurrentUserQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, checkoutIds?: Array<string> | null, orders?: { __typename?: 'OrderCountableConnection', edges: Array<{ __typename?: 'OrderCountableEdge', node: { __typename?: 'Order', id: string, voucherCode?: string | null, statusDisplay: string, status: OrderStatus, created: string, updatedAt: string, number: string, shippingMethodName?: string | null, lines: Array<{ __typename?: 'OrderLine', id: string, quantity: number, undiscountedTotalPrice: { __typename?: 'TaxedMoney', net: { __typename?: 'Money', amount: number }, gross: { __typename?: 'Money', amount: number } }, variant?: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, discounts: Array<{ __typename?: 'OrderDiscount', amount: { __typename?: 'Money', amount: number } }>, subtotal: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, total: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingMethods: Array<{ __typename?: 'ShippingMethod', maximumDeliveryDays?: number | null, minimumDeliveryDays?: number | null, name: string }> } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, defaultShippingAddress?: { __typename?: 'Address', firstName: string, lastName: string, streetAddress1: string, city: string, countryArea: string, postalCode: string } | null, metadata: Array<{ __typename?: 'MetadataItem', key: string, value: string }>, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null } | null };
 
-export type UserDetailsFragment = { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, defaultShippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, isDefaultShippingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', country: string } } | null, defaultBillingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, streetAddress2: string, city: string, countryArea: string, postalCode: string, isDefaultBillingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', country: string } } | null, metadata: Array<{ __typename?: 'MetadataItem', key: string, value: string }>, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null };
+export type UserDetailsFragment = { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, checkoutIds?: Array<string> | null, orders?: { __typename?: 'OrderCountableConnection', edges: Array<{ __typename?: 'OrderCountableEdge', node: { __typename?: 'Order', id: string, voucherCode?: string | null, statusDisplay: string, status: OrderStatus, created: string, updatedAt: string, number: string, shippingMethodName?: string | null, lines: Array<{ __typename?: 'OrderLine', id: string, quantity: number, undiscountedTotalPrice: { __typename?: 'TaxedMoney', net: { __typename?: 'Money', amount: number }, gross: { __typename?: 'Money', amount: number } }, variant?: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, discounts: Array<{ __typename?: 'OrderDiscount', amount: { __typename?: 'Money', amount: number } }>, subtotal: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, total: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingMethods: Array<{ __typename?: 'ShippingMethod', maximumDeliveryDays?: number | null, minimumDeliveryDays?: number | null, name: string }> } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } | null, defaultShippingAddress?: { __typename?: 'Address', firstName: string, lastName: string, streetAddress1: string, city: string, countryArea: string, postalCode: string } | null, metadata: Array<{ __typename?: 'MetadataItem', key: string, value: string }>, avatar?: { __typename?: 'Image', url: string, alt?: string | null } | null };
 
 export type FilteredProductItemListQueryVariables = Exact<{
   channel: Scalars['String']['input'];
@@ -33374,6 +33406,15 @@ export type FilteredProductItemListQueryVariables = Exact<{
 
 
 export type FilteredProductItemListQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, rating?: number | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null } | null, category?: { __typename?: 'Category', name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } | null };
+
+export type OrderFindQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type OrderFindQuery = { __typename?: 'Query', order?: { __typename?: 'Order', id: string, voucherCode?: string | null, statusDisplay: string, status: OrderStatus, created: string, updatedAt: string, number: string, shippingMethodName?: string | null, lines: Array<{ __typename?: 'OrderLine', id: string, quantity: number, undiscountedTotalPrice: { __typename?: 'TaxedMoney', net: { __typename?: 'Money', amount: number }, gross: { __typename?: 'Money', amount: number } }, variant?: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, discounts: Array<{ __typename?: 'OrderDiscount', amount: { __typename?: 'Money', amount: number } }>, subtotal: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, total: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingMethods: Array<{ __typename?: 'ShippingMethod', maximumDeliveryDays?: number | null, minimumDeliveryDays?: number | null, name: string }> } | null };
+
+export type OrderFragmentFragment = { __typename?: 'Order', id: string, voucherCode?: string | null, statusDisplay: string, status: OrderStatus, created: string, updatedAt: string, number: string, shippingMethodName?: string | null, lines: Array<{ __typename?: 'OrderLine', id: string, quantity: number, undiscountedTotalPrice: { __typename?: 'TaxedMoney', net: { __typename?: 'Money', amount: number }, gross: { __typename?: 'Money', amount: number } }, variant?: { __typename?: 'ProductVariant', name: string, id: string, product: { __typename?: 'Product', id: string, name: string, slug: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, category?: { __typename?: 'Category', name: string } | null }, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null }>, billingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, shippingAddress?: { __typename?: 'Address', id: string, streetAddress1: string, city: string, countryArea: string, postalCode: string, firstName: string, lastName: string } | null, discounts: Array<{ __typename?: 'OrderDiscount', amount: { __typename?: 'Money', amount: number } }>, subtotal: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, total: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingPrice: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number }, net: { __typename?: 'Money', amount: number }, tax: { __typename?: 'Money', amount: number } }, shippingMethods: Array<{ __typename?: 'ShippingMethod', maximumDeliveryDays?: number | null, minimumDeliveryDays?: number | null, name: string }> };
 
 export type ProductCategoryItemFragment = { __typename?: 'Category', id: string, description?: string | null, slug: string, name: string, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null };
 
@@ -33432,7 +33473,7 @@ export type UpdateCheckoutBillingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCheckoutBillingMutation = { __typename?: 'Mutation', checkoutBillingAddressUpdate?: { __typename?: 'CheckoutBillingAddressUpdate', checkout?: { __typename?: 'Checkout', billingAddress?: { __typename?: 'Address', firstName: string, lastName: string, streetAddress1: string, city: string, countryArea: string, postalCode: string } | null } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
+export type UpdateCheckoutBillingMutation = { __typename?: 'Mutation', checkoutBillingAddressUpdate?: { __typename?: 'CheckoutBillingAddressUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
 
 export type UpdateCheckoutShippingMutationVariables = Exact<{
   shippingAddress: AddressInput;
@@ -33440,7 +33481,15 @@ export type UpdateCheckoutShippingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCheckoutShippingMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', checkout?: { __typename?: 'Checkout', shippingAddress?: { __typename?: 'Address', firstName: string, lastName: string, streetAddress1: string, city: string, countryArea: string, postalCode: string } | null } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
+export type UpdateCheckoutShippingMutation = { __typename?: 'Mutation', checkoutShippingAddressUpdate?: { __typename?: 'CheckoutShippingAddressUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, message?: string | null, code: CheckoutErrorCode }> } | null };
+
+export type UpdateCheckoutShippingMethodMutationVariables = Exact<{
+  checkoutId: Scalars['ID']['input'];
+  methodId: Scalars['ID']['input'];
+}>;
+
+
+export type UpdateCheckoutShippingMethodMutation = { __typename?: 'Mutation', checkoutDeliveryMethodUpdate?: { __typename?: 'CheckoutDeliveryMethodUpdate', errors: Array<{ __typename?: 'CheckoutError', field?: string | null, code: CheckoutErrorCode, message?: string | null }> } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -33474,35 +33523,140 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const OrderFragmentFragmentDoc = new TypedDocumentString(`
+    fragment OrderFragment on Order {
+  id
+  voucherCode
+  lines {
+    id
+    quantity
+    undiscountedTotalPrice {
+      net {
+        amount
+      }
+      gross {
+        amount
+      }
+    }
+    variant {
+      product {
+        id
+        name
+        slug
+        thumbnail {
+          url
+          alt
+        }
+        category {
+          name
+        }
+      }
+      pricing {
+        price {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      name
+      id
+    }
+  }
+  billingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  shippingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  discounts {
+    amount {
+      amount
+    }
+  }
+  subtotal {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  total {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  shippingPrice {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  statusDisplay
+  status
+  created
+  updatedAt
+  number
+  shippingMethods {
+    maximumDeliveryDays
+    minimumDeliveryDays
+    name
+  }
+  shippingMethodName
+}
+    `, {"fragmentName":"OrderFragment"}) as unknown as TypedDocumentString<OrderFragmentFragment, unknown>;
 export const UserDetailsFragmentDoc = new TypedDocumentString(`
     fragment UserDetails on User {
   id
   email
   firstName
   lastName
-  defaultShippingAddress {
-    id
-    streetAddress1
-    streetAddress2
-    city
-    countryArea
-    country {
-      country
+  checkoutIds
+  orders(first: 10) {
+    edges {
+      node {
+        ...OrderFragment
+      }
     }
-    postalCode
-    isDefaultShippingAddress
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
-  defaultBillingAddress {
-    id
+  defaultShippingAddress {
+    firstName
+    lastName
     streetAddress1
-    streetAddress2
     city
     countryArea
-    country {
-      country
-    }
     postalCode
-    isDefaultBillingAddress
   }
   metadata {
     key
@@ -33513,7 +33667,113 @@ export const UserDetailsFragmentDoc = new TypedDocumentString(`
     alt
   }
 }
-    `, {"fragmentName":"UserDetails"}) as unknown as TypedDocumentString<UserDetailsFragment, unknown>;
+    fragment OrderFragment on Order {
+  id
+  voucherCode
+  lines {
+    id
+    quantity
+    undiscountedTotalPrice {
+      net {
+        amount
+      }
+      gross {
+        amount
+      }
+    }
+    variant {
+      product {
+        id
+        name
+        slug
+        thumbnail {
+          url
+          alt
+        }
+        category {
+          name
+        }
+      }
+      pricing {
+        price {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      name
+      id
+    }
+  }
+  billingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  shippingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  discounts {
+    amount {
+      amount
+    }
+  }
+  subtotal {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  total {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  shippingPrice {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  statusDisplay
+  status
+  created
+  updatedAt
+  number
+  shippingMethods {
+    maximumDeliveryDays
+    minimumDeliveryDays
+    name
+  }
+  shippingMethodName
+}`, {"fragmentName":"UserDetails"}) as unknown as TypedDocumentString<UserDetailsFragment, unknown>;
 export const ProductCategoryItemFragmentDoc = new TypedDocumentString(`
     fragment ProductCategoryItem on Category {
   id
@@ -33617,6 +33877,26 @@ export const CheckoutAddLineDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CheckoutAddLineMutation, CheckoutAddLineMutationVariables>;
+export const CheckoutAddPromoDocument = new TypedDocumentString(`
+    mutation CheckoutAddPromo($checkoutId: ID!, $promoCode: String!) {
+  checkoutAddPromoCode(id: $checkoutId, promoCode: $promoCode) {
+    errors {
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CheckoutAddPromoMutation, CheckoutAddPromoMutationVariables>;
+export const CheckoutAssignDocument = new TypedDocumentString(`
+    mutation CheckoutAssign($checkoutId: ID!, $customerId: ID!) {
+  checkoutCustomerAttach(id: $checkoutId, customerId: $customerId) {
+    errors {
+      message
+      code
+      field
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CheckoutAssignMutation, CheckoutAssignMutationVariables>;
 export const CheckoutCreateDocument = new TypedDocumentString(`
     mutation CheckoutCreate($channel: String!) {
   checkoutCreate(input: {channel: $channel, lines: []}) {
@@ -33674,12 +33954,8 @@ export const CheckoutCreateDocument = new TypedDocumentString(`
 export const CheckoutDeleteLinesDocument = new TypedDocumentString(`
     mutation CheckoutDeleteLines($checkoutId: ID!, $lineIds: [ID!]!) {
   checkoutLinesDelete(id: $checkoutId, linesIds: $lineIds) {
-    checkout {
-      id
-    }
     errors {
-      field
-      code
+      message
     }
   }
 }
@@ -33688,15 +33964,11 @@ export const CheckoutFindDocument = new TypedDocumentString(`
     query CheckoutFind($id: ID!) {
   checkout(id: $id) {
     id
-    email
     lines {
       id
       quantity
-      totalPrice {
-        gross {
-          amount
-          currency
-        }
+      undiscountedTotalPrice {
+        amount
       }
       variant {
         product {
@@ -33715,7 +33987,9 @@ export const CheckoutFindDocument = new TypedDocumentString(`
           price {
             gross {
               amount
-              currency
+            }
+            tax {
+              amount
             }
           }
         }
@@ -33726,33 +34000,35 @@ export const CheckoutFindDocument = new TypedDocumentString(`
     billingAddress {
       id
       streetAddress1
-      streetAddress2
       city
       countryArea
-      country {
-        country
-      }
       postalCode
+      firstName
+      lastName
     }
     shippingAddress {
       id
       streetAddress1
-      streetAddress2
       city
       countryArea
-      country {
-        country
-      }
       postalCode
+      firstName
+      lastName
     }
+    discountName
     discount {
       amount
     }
-    totalPrice {
+    subtotalPrice {
       gross {
         amount
       }
-      net {
+      tax {
+        amount
+      }
+    }
+    totalPrice {
+      gross {
         amount
       }
       tax {
@@ -33760,13 +34036,48 @@ export const CheckoutFindDocument = new TypedDocumentString(`
       }
     }
     shippingPrice {
-      net {
+      gross {
         amount
       }
+      tax {
+        amount
+      }
+    }
+    shippingMethods {
+      id
+      active
+    }
+    deliveryMethod {
+      __typename
     }
   }
 }
     `) as unknown as TypedDocumentString<CheckoutFindQuery, CheckoutFindQueryVariables>;
+export const CheckoutUpdateLineDocument = new TypedDocumentString(`
+    mutation CheckoutUpdateLine($checkoutId: ID!, $lineId: ID!, $quantity: Int!) {
+  checkoutLinesUpdate(
+    id: $checkoutId
+    lines: {lineId: $lineId, quantity: $quantity}
+  ) {
+    errors {
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CheckoutUpdateLineMutation, CheckoutUpdateLineMutationVariables>;
+export const CompleteCheckoutDocument = new TypedDocumentString(`
+    mutation CompleteCheckout($checkoutId: ID!) {
+  checkoutComplete(id: $checkoutId) {
+    order {
+      id
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CompleteCheckoutMutation, CompleteCheckoutMutationVariables>;
 export const ConfirmUserDocument = new TypedDocumentString(`
     mutation ConfirmUser($email: String!, $token: String!) {
   confirmAccount(email: $email, token: $token) {
@@ -33775,9 +34086,11 @@ export const ConfirmUserDocument = new TypedDocumentString(`
       code
     }
     user {
+      id
       email
       isActive
       isConfirmed
+      checkoutIds
     }
   }
 }
@@ -33793,29 +34106,25 @@ export const CurrentUserDocument = new TypedDocumentString(`
   email
   firstName
   lastName
-  defaultShippingAddress {
-    id
-    streetAddress1
-    streetAddress2
-    city
-    countryArea
-    country {
-      country
+  checkoutIds
+  orders(first: 10) {
+    edges {
+      node {
+        ...OrderFragment
+      }
     }
-    postalCode
-    isDefaultShippingAddress
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
-  defaultBillingAddress {
-    id
+  defaultShippingAddress {
+    firstName
+    lastName
     streetAddress1
-    streetAddress2
     city
     countryArea
-    country {
-      country
-    }
     postalCode
-    isDefaultBillingAddress
   }
   metadata {
     key
@@ -33825,6 +34134,113 @@ export const CurrentUserDocument = new TypedDocumentString(`
     url
     alt
   }
+}
+fragment OrderFragment on Order {
+  id
+  voucherCode
+  lines {
+    id
+    quantity
+    undiscountedTotalPrice {
+      net {
+        amount
+      }
+      gross {
+        amount
+      }
+    }
+    variant {
+      product {
+        id
+        name
+        slug
+        thumbnail {
+          url
+          alt
+        }
+        category {
+          name
+        }
+      }
+      pricing {
+        price {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      name
+      id
+    }
+  }
+  billingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  shippingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  discounts {
+    amount {
+      amount
+    }
+  }
+  subtotal {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  total {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  shippingPrice {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  statusDisplay
+  status
+  created
+  updatedAt
+  number
+  shippingMethods {
+    maximumDeliveryDays
+    minimumDeliveryDays
+    name
+  }
+  shippingMethodName
 }`) as unknown as TypedDocumentString<CurrentUserQuery, CurrentUserQueryVariables>;
 export const FilteredProductItemListDocument = new TypedDocumentString(`
     query FilteredProductItemList($channel: String!, $slugs: [ID!], $gte: Float, $lte: Float, $sortBy: OrderDirection!, $after: String, $search: String) {
@@ -33877,6 +34293,119 @@ export const FilteredProductItemListDocument = new TypedDocumentString(`
     name
   }
 }`) as unknown as TypedDocumentString<FilteredProductItemListQuery, FilteredProductItemListQueryVariables>;
+export const OrderFindDocument = new TypedDocumentString(`
+    query OrderFind($id: ID!) {
+  order(id: $id) {
+    ...OrderFragment
+  }
+}
+    fragment OrderFragment on Order {
+  id
+  voucherCode
+  lines {
+    id
+    quantity
+    undiscountedTotalPrice {
+      net {
+        amount
+      }
+      gross {
+        amount
+      }
+    }
+    variant {
+      product {
+        id
+        name
+        slug
+        thumbnail {
+          url
+          alt
+        }
+        category {
+          name
+        }
+      }
+      pricing {
+        price {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      name
+      id
+    }
+  }
+  billingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  shippingAddress {
+    id
+    streetAddress1
+    city
+    countryArea
+    postalCode
+    firstName
+    lastName
+  }
+  discounts {
+    amount {
+      amount
+    }
+  }
+  subtotal {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  total {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  shippingPrice {
+    gross {
+      amount
+    }
+    net {
+      amount
+    }
+    tax {
+      amount
+    }
+  }
+  statusDisplay
+  status
+  created
+  updatedAt
+  number
+  shippingMethods {
+    maximumDeliveryDays
+    minimumDeliveryDays
+    name
+  }
+  shippingMethodName
+}`) as unknown as TypedDocumentString<OrderFindQuery, OrderFindQueryVariables>;
 export const ProductCategoryListDocument = new TypedDocumentString(`
     query ProductCategoryList {
   categories(first: 10) {
@@ -34103,17 +34632,11 @@ export const RegisterUserDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<RegisterUserMutation, RegisterUserMutationVariables>;
 export const UpdateCheckoutBillingDocument = new TypedDocumentString(`
     mutation UpdateCheckoutBilling($billingAddress: AddressInput!, $id: ID!) {
-  checkoutBillingAddressUpdate(billingAddress: $billingAddress, id: $id) {
-    checkout {
-      billingAddress {
-        firstName
-        lastName
-        streetAddress1
-        city
-        countryArea
-        postalCode
-      }
-    }
+  checkoutBillingAddressUpdate(
+    billingAddress: $billingAddress
+    id: $id
+    validationRules: {checkFieldsFormat: false, checkRequiredFields: false, enableFieldsNormalization: false}
+  ) {
     errors {
       field
       message
@@ -34124,17 +34647,11 @@ export const UpdateCheckoutBillingDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<UpdateCheckoutBillingMutation, UpdateCheckoutBillingMutationVariables>;
 export const UpdateCheckoutShippingDocument = new TypedDocumentString(`
     mutation UpdateCheckoutShipping($shippingAddress: AddressInput!, $id: ID!) {
-  checkoutShippingAddressUpdate(shippingAddress: $shippingAddress, id: $id) {
-    checkout {
-      shippingAddress {
-        firstName
-        lastName
-        streetAddress1
-        city
-        countryArea
-        postalCode
-      }
-    }
+  checkoutShippingAddressUpdate(
+    shippingAddress: $shippingAddress
+    id: $id
+    validationRules: {checkFieldsFormat: false, checkRequiredFields: false, enableFieldsNormalization: false}
+  ) {
     errors {
       field
       message
@@ -34143,6 +34660,17 @@ export const UpdateCheckoutShippingDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateCheckoutShippingMutation, UpdateCheckoutShippingMutationVariables>;
+export const UpdateCheckoutShippingMethodDocument = new TypedDocumentString(`
+    mutation UpdateCheckoutShippingMethod($checkoutId: ID!, $methodId: ID!) {
+  checkoutDeliveryMethodUpdate(id: $checkoutId, deliveryMethodId: $methodId) {
+    errors {
+      field
+      code
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCheckoutShippingMethodMutation, UpdateCheckoutShippingMethodMutationVariables>;
 export const UpdateUserDocument = new TypedDocumentString(`
     mutation UpdateUser($id: ID, $updates: AccountInput!) {
   accountUpdate(customerId: $id, input: $updates) {

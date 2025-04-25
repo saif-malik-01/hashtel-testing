@@ -1,15 +1,11 @@
 query CheckoutFind($id: ID!) {
   checkout(id: $id) {
     id
-    email
     lines {
       id
       quantity
-      totalPrice {
-        gross {
-          amount
-          currency
-        }
+      undiscountedTotalPrice {
+        amount
       }
       variant {
         product {
@@ -28,7 +24,9 @@ query CheckoutFind($id: ID!) {
           price {
             gross {
               amount
-              currency
+            }
+            tax {
+              amount
             }
           }
         }
@@ -39,33 +37,35 @@ query CheckoutFind($id: ID!) {
     billingAddress {
       id
       streetAddress1
-      streetAddress2
       city
       countryArea
-      country {
-        country
-      }
       postalCode
+      firstName
+      lastName
     }
     shippingAddress {
       id
       streetAddress1
-      streetAddress2
       city
       countryArea
-      country {
-        country
-      }
       postalCode
+      firstName
+      lastName
     }
+    discountName
     discount {
       amount
     }
-    totalPrice {
+    subtotalPrice {
       gross {
         amount
       }
-      net {
+      tax {
+        amount
+      }
+    }
+    totalPrice {
+      gross {
         amount
       }
       tax {
@@ -73,9 +73,19 @@ query CheckoutFind($id: ID!) {
       }
     }
     shippingPrice {
-      net {
+      gross {
         amount
       }
+      tax {
+        amount
+      }
+    }
+    shippingMethods {
+      id
+      active
+    }
+    deliveryMethod {
+      __typename
     }
   }
 }

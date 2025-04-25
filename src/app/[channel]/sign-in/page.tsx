@@ -6,7 +6,7 @@ export default async function SignInPage({
   searchParams,
 }: {
   params: Promise<{ channel: string }>;
-  searchParams: Promise<{ redirect: string | undefined}>;
+  searchParams: Promise<{ redirect?: string}>;
 }) {
   const { channel } = await params;
   const { redirect } = await searchParams;
