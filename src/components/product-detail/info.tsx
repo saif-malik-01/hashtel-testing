@@ -1,8 +1,8 @@
 import { ProductDetailsQuery, VariantDetailsFragment } from "@/gql/graphql";
 import Ratings from "@/components/rating";
 import { Pair } from "./pair";
-import { Button } from "../ui/button";
 import { VariantSelector } from "./variant-selector";
+import AddToCart from "../add-to-cart";
 
 export const Info = ({
   product,
@@ -18,6 +18,8 @@ export const Info = ({
   const brief = product?.description
     ? JSON.parse(product?.description || "").blocks[0]?.data?.text
     : "";
+
+    console.log(variant,"Test")
 
   return (
     <div className="flex flex-col gap-2">
@@ -51,7 +53,7 @@ export const Info = ({
         variants={product?.variants || []}
         selectedVariant={variant}
       />
-      <Button className="md:w-[80%] my-2">Add to Cart</Button>
+      {variant && <AddToCart channel={channel} variantId={variant?.id} defaultShow />}
     </div>
   );
 };

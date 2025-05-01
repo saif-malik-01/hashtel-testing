@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     if (res.status) {
       const { gatewayURL, EncData, data } = res.data;
 
-      const url = `${gatewayURL}?EncData=${encodeURIComponent(
+      const url = `${process.env.PROD_SALE_API}?EncData=${encodeURIComponent(
         EncData
       )}&MerchantId=${encodeURIComponent(
         data.MerchantId
