@@ -13,7 +13,7 @@ export default async function Orders() {
   return (
     <div className="w-full flex flex-col gap-10">
       <h1 className="text-xl font-semibold">Orders History</h1>
-      {me.orders?.edges.length && me.orders.edges.map((o) => (
+      {!!me.orders?.edges.length && me.orders.edges.map((o) => (
         <Order key={o.node.id} {...o.node} />
       ))}
       {!me.orders?.edges.length && (

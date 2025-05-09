@@ -16,37 +16,49 @@ export const onSignIn = async (
   redirectedUrl: string | undefined,
   formData: FormData
 ) => {
-
-  const res = await (await getServerAuthClient()).signIn(
-    {
-      email: formData.get("email")?.toString() || "",
-      password: formData.get("password")?.toString() || "",
-    },
-    { cache: "no-store" },
-  );
-
-  const { me } = await executeGraphQL(CurrentUserDocument, {});
-
-  if (!me) {
-    return { status: 500, message: "Server error" };
-  }
-
-  const checkoutId = await Checkout.getIdFromCookies(channel);
-  if (!me.checkoutIds?.includes(checkoutId)) {
-    await executeGraphQL(CheckoutAssignDocument, {
-      variables: {
-        checkoutId: checkoutId,
-        customerId: me.id,
+  let url = "";
+  
+  try {
+    const res = await (
+      await getServerAuthClient()
+    ).signIn(
+      {
+        email: formData.get("email")?.toString() || "",
+        password: formData.get("password")?.toString() || "",
       },
-    });
-  }
+      { cache: "no-store" }
+    );
 
-  if (redirectedUrl) {
-    redirect(redirectedUrl);
-  }
+    const { me } = await executeGraphQL(CurrentUserDocument, {});
 
-  if (res.data.tokenCreate) {
-    redirect(`/${channel}`);
+    if (!me) {
+      return { status: 500, message: "Server error" };
+    }
+
+    const checkoutId = await Checkout.getIdFromCookies(channel);
+    if (!me.checkoutIds?.includes(checkoutId)) {
+      await executeGraphQL(CheckoutAssignDocument, {
+        variables: {
+          checkoutId: checkoutId,
+          customerId: me.id,
+        },
+      });
+    }
+
+    if (res.data.tokenCreate) {
+      url = `/${channel}`;
+    }
+
+    if (redirectedUrl) {
+      url = redirectedUrl;
+    }
+
+    return { status: 500, message: "Something went wrong" };
+  } catch (error) {
+    console.log(error);
+    return { status: 500, message: (error as Error).message };
+  } finally {
+    if (url) redirect(url);
   }
 };
 
@@ -67,16 +79,18 @@ export const onRegister = async (
       password,
       firstName,
       lastName,
-      redirectUrl: `${
-        process.env.BASE_URL
-      }/${channel}/account-confirm${
-        redirectedUrl ? `?redirect=${redirectedUrl}` : ""
-      }`,
+      // redirectUrl: `${
+      //   process.env.BASE_URL
+      // }/${channel}/account-confirm${
+      //   redirectedUrl ? `?redirect=${redirectedUrl}` : ""
+      // }`,
     },
   });
 
   if (data.accountRegister?.user) {
-    redirect(`/${channel}/verify-email`);
+    redirect(
+      `/${channel}/sign-in${redirectedUrl ? `?redirect=${redirectedUrl}` : ""}`
+    );
   }
 
   return data.accountRegister?.errors;

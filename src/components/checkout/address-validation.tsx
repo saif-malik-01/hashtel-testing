@@ -2,9 +2,10 @@
 
 import { useEffect, useState, useRef } from "react";
 import AddressForm from "../shared/address-form";
-import { onUpdateCheckoutAddress } from "@/actions/cart";
+import { onUpdateCheckoutAddress, onUpdateDeliveryMethod } from "@/actions/cart";
 import { CountryCode } from "@/gql/graphql";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export interface Address {
   __typename?: "Address";
@@ -29,13 +30,41 @@ const initialAddress: Address = {
 export default function AddressValidation({
   address,
   checkoutId,
+  defaultShippingMethodId,
+  deliveryMethod,
 }: {
   address?: Address | null;
   checkoutId: string;
+  defaultShippingMethodId: string;
+  deliveryMethod?:
+    | {
+        __typename: "ShippingMethod";
+      }
+    | {
+        __typename: "Warehouse";
+      }
+    | null
+    | undefined;
 }) {
   const [formData, setFormData] = useState<Address>(address || initialAddress);
+  const router = useRouter();
   const { toast } = useToast();
   const isInitialRender = useRef(true); // Flag to track initial render
+
+  if (!deliveryMethod && defaultShippingMethodId) {
+    onUpdateDeliveryMethod(checkoutId, defaultShippingMethodId)
+      .then(({ status }) => {
+        if (status === 200) router.refresh();
+        else throw new Error();
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
+      });
+  }
 
   const handleUpdate = async () => {
     const isFormDataValid = Object.values(formData).every((value) => value);

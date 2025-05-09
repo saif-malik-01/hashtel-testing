@@ -4,7 +4,7 @@ mutation RegisterUser(
   $channel: String!
   $firstName: String!
   $lastName: String!
-  $redirectUrl: String!
+  $redirectUrl: String
 ) {
   accountRegister(
     input: {

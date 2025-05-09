@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       "store-d2a07kcl.saleor.cloud",
       "firebasestorage.googleapis.com",
       "storage.googleapis.com",
+      "89.116.21.142"
     ],
   },
   eslint: {

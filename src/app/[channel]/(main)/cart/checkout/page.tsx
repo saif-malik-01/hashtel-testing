@@ -4,7 +4,6 @@ import OrderSummary from "@/components/checkout/summary";
 import * as Checkout from "@/lib/checkout";
 import { executeGraphQL } from "@/lib/graphql";
 import { redirect } from "next/navigation";
-import { onUpdateDeliveryMethod } from "@/actions/cart";
 
 export default async function CheckoutPage({
   params,
@@ -20,16 +19,13 @@ export default async function CheckoutPage({
     redirect(`/${channel}/`);
   }
 
-  if (!checkout?.deliveryMethod && checkout?.shippingMethods[0]?.id) {
-    await onUpdateDeliveryMethod(checkoutId, checkout?.shippingMethods[0]?.id);
-    redirect(`/${channel}/cart/checkout`);
-  }
-
   return (
     <div className="py-16 px-32 flex md:flex-row flex-col items-center justify-center gap-16">
       <AddressValidation
         address={checkout.shippingAddress}
         checkoutId={checkoutId}
+        deliveryMethod={checkout?.deliveryMethod}
+        defaultShippingMethodId={checkout?.shippingMethods[0]?.id}
       />
       <OrderSummary
         email={me.email}

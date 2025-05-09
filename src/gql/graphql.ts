@@ -33461,7 +33461,7 @@ export type RegisterUserMutationVariables = Exact<{
   channel: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
-  redirectUrl: Scalars['String']['input'];
+  redirectUrl?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -34613,7 +34613,7 @@ export const ProductListItemBySlugDocument = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<ProductListItemBySlugQuery, ProductListItemBySlugQueryVariables>;
 export const RegisterUserDocument = new TypedDocumentString(`
-    mutation RegisterUser($email: String!, $password: String!, $channel: String!, $firstName: String!, $lastName: String!, $redirectUrl: String!) {
+    mutation RegisterUser($email: String!, $password: String!, $channel: String!, $firstName: String!, $lastName: String!, $redirectUrl: String) {
   accountRegister(
     input: {email: $email, password: $password, redirectUrl: $redirectUrl, channel: $channel, firstName: $firstName, lastName: $lastName}
   ) {
