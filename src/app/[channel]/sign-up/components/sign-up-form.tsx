@@ -73,6 +73,16 @@ export default function SignUpForm({
           />
         </div>
         <div className="space-y-2">
+          <Label htmlFor="phoneNumber">Phone</Label>
+          <Input
+            id="phoneNumber"
+            name="phoneNumber"
+            placeholder="+911231231231"
+            required
+            type="tel"
+          />
+        </div>
+        <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
           <Input name="password" id="password" required type="password" />
         </div>

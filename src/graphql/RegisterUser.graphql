@@ -5,6 +5,7 @@ mutation RegisterUser(
   $firstName: String!
   $lastName: String!
   $redirectUrl: String
+  $phoneNumber: String!
 ) {
   accountRegister(
     input: {
@@ -14,6 +15,10 @@ mutation RegisterUser(
       channel: $channel
       firstName: $firstName
       lastName: $lastName
+      metadata: [ {
+         key: "phoneNumber",
+         value: $phoneNumber
+      }]
     }
   ) {
     errors {

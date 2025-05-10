@@ -71,6 +71,7 @@ export const onRegister = async (
   const password = formData.get("password")?.toString() || "";
   const firstName = formData.get("firstName")?.toString() || "";
   const lastName = formData.get("lastName")?.toString() || "";
+  const phoneNumber = formData.get("phoneNumber")?.toString() || "";
 
   const data = await executeGraphQL(RegisterUserDocument, {
     variables: {
@@ -79,6 +80,7 @@ export const onRegister = async (
       password,
       firstName,
       lastName,
+      phoneNumber
       // redirectUrl: `${
       //   process.env.BASE_URL
       // }/${channel}/account-confirm${
