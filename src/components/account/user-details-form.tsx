@@ -45,7 +45,7 @@ export default function UserDetailsForm(props: UserInputs) {
           Account Details
         </legend>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">First Name</Label>
           <Input
             id="firstName"
             defaultValue={props.firstName}
@@ -56,7 +56,7 @@ export default function UserDetailsForm(props: UserInputs) {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Last Name</Label>
           <Input
             id="lastName"
             defaultValue={props.lastName}
@@ -79,7 +79,7 @@ export default function UserDetailsForm(props: UserInputs) {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Phone Number</Label>
           <Input
             id="phoneNumber"
             name="phoneNumber"
