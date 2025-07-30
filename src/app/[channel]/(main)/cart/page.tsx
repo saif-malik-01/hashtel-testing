@@ -39,7 +39,7 @@ export default async function Cart({
   }
 
   return (
-    <section className="w-7xl p-8 px-32">
+    <section className="md:w-7xl p-8 md:px-32">
       <h1 className="mt-8 text-3xl font-bold text-neutral-900">
         Your Shopping Cart
       </h1>
