@@ -38,7 +38,7 @@ export default async function SignUp({
         </div>
       </aside>
 
-      <div className="w-1/2 flex items-center justify-center">
+      <div className="md:w-1/2 flex items-center justify-center">
         <SignUpForm channel={channel} redirect={redirect} />
       </div>
     </main>
