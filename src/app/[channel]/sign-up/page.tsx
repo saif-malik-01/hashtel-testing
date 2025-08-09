@@ -1,5 +1,20 @@
 import Image from "next/image";
 import SignUpForm from "./components/sign-up-form";
+import { Metadata } from "next";
+import { CHANNELS } from "@/constants/global";
+
+export const metadata: Metadata = {
+  title: "Create Account",
+  description: "Join Hashtel Technology to shop premium commercial electronics, track orders, and receive personalized deals.",
+  keywords: "Hashtel sign up, create account, register, new user, electronics signup",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 export default async function SignUp({
   params,

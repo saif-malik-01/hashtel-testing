@@ -5,7 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CHANNELS } from "@/constants/global";
 import { Mail } from "lucide-react";
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 export default async function EmailVerification() {
   return (
@@ -21,13 +26,13 @@ export default async function EmailVerification() {
         </CardHeader>
         <CardContent className="text-center">
           <p className="text-gray-600 mb-4">
-            We've sent a verification link to your email address. Please check
+            We&apos;ve sent a verification link to your email address. Please check
             your inbox and click on the link to verify your account.
           </p>
         </CardContent>
         <CardFooter className="flex flex-col items-center">
           <p className="text-sm text-gray-500 text-center">
-            Didn't receive the email? Check your spam folder or try resending.
+            Didn&apos;t receive the email? Check your spam folder or try resending.
           </p>
         </CardFooter>
       </Card>

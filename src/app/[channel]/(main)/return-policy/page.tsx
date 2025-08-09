@@ -1,3 +1,23 @@
+import { CHANNELS } from "@/constants/global";
+import { Metadata } from "next";
+
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Return Policy",
+  description:
+    "Read our return and refund policy for commercial electronics purchases. Hassle-free returns guaranteed by Hashtel.",
+  keywords:
+    "Hashtel returns, refund policy, return policy, electronics return, product returns",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
+
 const ReturnPolicy = () => {
   return (
     <>
@@ -215,15 +235,17 @@ const ReturnPolicy = () => {
             </ul>
           </div>
           <div className="flex flex-col gap-4">
-                <h4>
-                    <strong>
-                        Delivery Charges
-                    </strong>
-                </h4>
-                <ul className="list-outside list-disc pl-8">
-                    <li className="underline decoration-red-400 decoration-2 underline-offset-4">Shipping and handling rates may vary based on product, packaging, size, volume, type and other considerations. The shipping and handling charges are given at the time of check out and consumers will know about this before making payments.
-                    </li>
-                </ul>
+            <h4>
+              <strong>Delivery Charges</strong>
+            </h4>
+            <ul className="list-outside list-disc pl-8">
+              <li className="underline decoration-red-400 decoration-2 underline-offset-4">
+                Shipping and handling rates may vary based on product,
+                packaging, size, volume, type and other considerations. The
+                shipping and handling charges are given at the time of check out
+                and consumers will know about this before making payments.
+              </li>
+            </ul>
           </div>
         </div>
       </div>

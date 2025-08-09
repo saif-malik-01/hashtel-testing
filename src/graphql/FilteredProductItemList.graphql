@@ -6,9 +6,10 @@ query FilteredProductItemList(
   $sortBy: OrderDirection!
   $after: String
   $search: String
+  $first:Int = 10
 ) {
   products(
-    first: 10
+    first: $first
     channel: $channel
     filter: { categories: $slugs, price: { gte: $gte, lte: $lte } }
     search: $search

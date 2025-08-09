@@ -5,9 +5,28 @@ import {
   warrantyTable,
   refundTable,
   policyTextList_3,
-  salesChannelsTable as salesChannels
+  salesChannelsTable as salesChannels,
 } from "./lib/data";
 import Table from "./components/table";
+import { Metadata } from "next";
+import { CHANNELS } from "@/constants/global";
+
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Warranty Policy",
+  description:
+    "Understand our warranty terms and coverage for commercial electronic products. Hashtel offers trusted post-purchase support.",
+  keywords:
+    "Hashtel warranty, product warranty, electronics warranty, warranty terms, warranty support",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 export default function Page() {
   return (
@@ -43,7 +62,9 @@ export default function Page() {
           <div className="w-full flex  flex-col items-center gap-4">
             <Table data={salesChannels} />
           </div>
-          <p><b>Authorised Sellers:</b></p>
+          <p>
+            <b>Authorised Sellers:</b>
+          </p>
         </div>
       </div>
     </>

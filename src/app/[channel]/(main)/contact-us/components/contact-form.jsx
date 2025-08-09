@@ -83,7 +83,7 @@ export default function ContactForm() {
         )}
       </label>
       <Button
-        loading={loading}
+        loading={`${loading}`}
         disabled={loading}
         type="submit"
         size="lg"

@@ -33402,6 +33402,7 @@ export type FilteredProductItemListQueryVariables = Exact<{
   sortBy: OrderDirection;
   after?: InputMaybe<Scalars['String']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -34244,9 +34245,9 @@ fragment OrderFragment on Order {
   shippingMethodName
 }`) as unknown as TypedDocumentString<CurrentUserQuery, CurrentUserQueryVariables>;
 export const FilteredProductItemListDocument = new TypedDocumentString(`
-    query FilteredProductItemList($channel: String!, $slugs: [ID!], $gte: Float, $lte: Float, $sortBy: OrderDirection!, $after: String, $search: String) {
+    query FilteredProductItemList($channel: String!, $slugs: [ID!], $gte: Float, $lte: Float, $sortBy: OrderDirection!, $after: String, $search: String, $first: Int = 10) {
   products(
-    first: 10
+    first: $first
     channel: $channel
     filter: {categories: $slugs, price: {gte: $gte, lte: $lte}}
     search: $search

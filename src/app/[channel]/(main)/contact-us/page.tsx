@@ -12,6 +12,25 @@ import Features from "../../../../components/features";
 import ContactForm from "./components/contact-form";
 import Map from "./components/map";
 import Image from "next/image";
+import { Metadata } from "next";
+import { CHANNELS } from "@/constants/global";
+
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Need help or have questions? Contact Hashtel Technology for support, inquiries, or business partnerships.",
+  keywords:
+    "contact Hashtel, support, customer service, get in touch, electronics support",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 const ContactUs = () => {
   return (
@@ -47,6 +66,7 @@ const ContactUs = () => {
             width={1080}
             height={420}
             className="rounded-sm"
+            alt="contact-us"
           />
         </section>
         <section className="mt-16">

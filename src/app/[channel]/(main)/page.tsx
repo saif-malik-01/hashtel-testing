@@ -5,6 +5,11 @@ import CategoryListings from "@/components/home/category-listings";
 import Categories from "@/components/home/categories";
 import Hero from "@/components/home//hero";
 import BestSellerProducts from "@/components/home/bestSellerProducts";
+import { CHANNELS } from "@/constants/global";
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 export default async function HomePage({
   params,

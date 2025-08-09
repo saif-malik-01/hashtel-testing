@@ -3,6 +3,13 @@ import SiderNav from "@/components/account/sidenav";
 import { executeGraphQL } from "@/lib/graphql";
 import { CurrentUserDocument } from "@/gql/graphql";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My Account",
+  description:
+    "Access your Hashtel account dashboard to manage your profile, view orders, track shipments, and update preferences.",
+};
 
 export default async function Layout({
   children,

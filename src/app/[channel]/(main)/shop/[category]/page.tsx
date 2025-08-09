@@ -15,19 +15,62 @@ import {
   ProductCategoryListDocument,
 } from "@/gql/graphql";
 import { PRICES } from "@/constants/filter";
+import { Metadata } from "next";
+import { CHANNELS } from "@/constants/global";
 
-export default async function CategoryPage({
-  params,
-  searchParams,
-}: {
+interface Props {
   params: Promise<{ category: string; channel: string }>;
   searchParams: Promise<{ priceBy: string; q: string }>;
-}) {
+}
+
+export const revalidate = 3600;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { category } = await params;
+
+  const cData = await executeGraphQL(ProductCategoryListDocument, {
+    revalidate,
+  });
+
+  const categories = cData.categories?.edges.map((e) => e.node) || [];
+  const c = categories.find((c) => c.slug === category);
+
+  const image = c?.backgroundImage?.url || "";
+
+  return {
+    title: c?.name || "All Products",
+    description:
+      c?.description ||
+      "Browse all commercial electronics available at Hashtel Technology Pvt. Ltd.",
+    openGraph: {
+      images: [image],
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const { categories } = await executeGraphQL(ProductCategoryListDocument, {
+    revalidate,
+    withAuth:false
+  });
+
+  const categorySlugs = categories?.edges.map((e) => e.node.slug) || [];
+
+  return CHANNELS.flatMap((channel) =>
+    categorySlugs.map((category) => ({
+      channel,
+      category,
+    }))
+  );
+}
+
+
+export default async function CategoryPage({ params, searchParams }: Props) {
   const { category, channel } = await params;
   const { priceBy, q } = await searchParams;
 
   const cData = await executeGraphQL(ProductCategoryListDocument, {
-    revalidate: 60,
+    revalidate,
   });
 
   const categories = cData.categories?.edges.map((e) => e.node) || [];

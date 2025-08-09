@@ -8,18 +8,73 @@ import {
 } from "@/components/ui/breadcrumb";
 import ImageViewer from "@/components/product-detail/images-viewer";
 import { executeGraphQL } from "@/lib/graphql";
-import { ProductDetailsDocument } from "@/gql/graphql";
+import {
+  FilteredProductItemListDocument,
+  OrderDirection,
+  ProductDetailsDocument,
+} from "@/gql/graphql";
 import { redirect } from "next/navigation";
 import { Info } from "@/components/product-detail/info";
 import { Description } from "@/components/product-detail/decription";
+import { Metadata } from "next";
+import { CHANNELS } from "@/constants/global";
 
-const Detail = async ({
-  params,
-  searchParams,
-}: {
+interface Props {
   params: Promise<{ slug: string; channel: string }>;
   searchParams: Promise<{ variantId: string }>;
-}) => {
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
+  const { slug, channel } = await params;
+  const { variantId } = await searchParams;
+
+  const { product } = await executeGraphQL(ProductDetailsDocument, {
+    variables: {
+      slug,
+      channel,
+    },
+    revalidate: 60,
+  });
+
+  const variant = product?.variants?.find((p) => p.id === variantId);
+  const images = variant?.media?.map((m) => m.url) || [];
+
+  return {
+    title: product?.name,
+    description: product?.description,
+    openGraph: {
+      images: images,
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const allParams: { slug: string; channel: string }[] = [];
+
+  for (const channel of CHANNELS) {
+    const { products } = await executeGraphQL(FilteredProductItemListDocument, {
+      variables: {
+        channel: channel,
+        sortBy: OrderDirection.Asc,
+        first: 100
+      },
+      withAuth: false,
+    });
+
+    products?.edges?.forEach((edge) => {
+      if (edge?.node?.slug) {
+        allParams.push({ slug: edge.node.slug, channel });
+      }
+    });
+  }
+
+  return allParams;
+}
+
+const Detail = async ({ params, searchParams }: Props) => {
   const { slug, channel } = await params;
   const { variantId } = await searchParams;
 

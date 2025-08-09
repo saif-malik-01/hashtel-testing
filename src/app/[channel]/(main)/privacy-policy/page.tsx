@@ -1,3 +1,21 @@
+import { CHANNELS } from "@/constants/global";
+import { Metadata } from "next";
+
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "Your privacy matters. Learn how Hashtel Technology collects, uses, and protects your personal data.",
+  keywords: "Hashtel privacy, data protection, privacy policy, personal data usage, user privacy",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
+
 const PrivacyPolicy = () => {
   return (
     <>

@@ -1,13 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
 
 import Pair from "../../../../components/pair";
+import { CHANNELS } from "@/constants/global";
 
-export const metadata = {
-  title: "About Us - Hashtel",
-  description:
-    "Learn more about Hashtel, a leader in mobile accessories and innovation since 2019.",
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn about Hashtel Technology Pvt. Ltd., a leader in commercial electronics e-commerce. Discover our mission, values, and story.",
+  keywords: "About Hashtel Technology, company story, electronics company, commercial electronics provider",
+  twitter: {
+    card: "summary_large_image",
+  },
 };
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 export default function AboutUs() {
   return (

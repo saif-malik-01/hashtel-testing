@@ -148,7 +148,12 @@ export default function OEMForm() {
           )}
         />
 
-        <Button disabled={loading} loading={loading} type="submit" size="lg">
+        <Button
+          disabled={loading}
+          loading={`${loading}`}
+          type="submit"
+          size="lg"
+        >
           Submit
         </Button>
       </form>

@@ -7,9 +7,12 @@ import { executeGraphQL } from "@/lib/graphql";
 import { CurrentUserDocument } from "@/gql/graphql";
 import PromoCodeInput from "@/components/checkout/promo-code-input";
 import QuantityUpdateInput from "@/components/checkout/quantity-update-input";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Shopping Cart · Hashtel Inc",
+export const metadata: Metadata = {
+  title: "Your Cart",
+  description:
+    "Review items in your Hashtel shopping cart. Modify quantities, apply coupons, and proceed to secure checkout.",
 };
 
 export default async function Cart({
@@ -29,7 +32,7 @@ export default async function Cart({
           Your Shopping Cart is empty
         </h1>
         <p className="my-8 text-sm text-neutral-500">
-          Looks like you haven't added any items to the cart yet.
+          Looks like you haven&apos;t added any items to the cart yet.
         </p>
         <Link href={`/${channel}/`}>
           <Button size="lg">Explore products</Button>

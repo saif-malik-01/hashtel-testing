@@ -1,12 +1,29 @@
 import Image from "next/image";
 import SignInForm from "./components/sign-in-form";
+import { Metadata } from "next";
+import { CHANNELS } from "@/constants/global";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description:
+    "Sign in to your Hashtel account to manage orders, track shipments, and access exclusive offers on commercial electronics.",
+  keywords:
+    "Hashtel login, sign in, account login, Hashtel Technology, electronics account access",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 export default async function SignInPage({
   params,
   searchParams,
 }: {
   params: Promise<{ channel: string }>;
-  searchParams: Promise<{ redirect?: string}>;
+  searchParams: Promise<{ redirect?: string }>;
 }) {
   const { channel } = await params;
   const { redirect } = await searchParams;

@@ -9,6 +9,25 @@ import {
 import PDFViewer from "./components/pdf-viewer";
 import OEMForm from "./components/oem-form";
 import Features from "../../../../components/features";
+import { Metadata } from "next";
+import { CHANNELS } from "@/constants/global";
+
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "OEM Solutions",
+  description:
+    "Explore Hashtel's OEM electronics manufacturing and supply solutions tailored for businesses and large-scale clients.",
+  keywords:
+    "Hashtel OEM, OEM electronics, custom electronics, electronics manufacturing, B2B electronics solutions",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export async function generateStaticParams() {
+  return CHANNELS.map((c) => ({ channel: c }));
+}
 
 const ContactUs = () => {
   return (
