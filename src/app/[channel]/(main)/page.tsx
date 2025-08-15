@@ -6,6 +6,7 @@ import Categories from "@/components/home/categories";
 import Hero from "@/components/home//hero";
 import BestSellerProducts from "@/components/home/bestSellerProducts";
 import { CHANNELS } from "@/constants/global";
+import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
   return CHANNELS.map((c) => ({ channel: c }));
@@ -17,6 +18,8 @@ export default async function HomePage({
   params: Promise<{ channel: string }>;
 }) {
   const { channel } = await params;
+
+  if(!CHANNELS.includes(channel)) notFound()
 
   return (
     <>
